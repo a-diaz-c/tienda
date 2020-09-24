@@ -16,17 +16,13 @@ class _NavbarState extends State<Navbar> {
   List<Categoria> lista = [];
   Map _datosCarrito;
   List<Map<String, dynamic>> categorias = [
-    {'id': '10', 'nombre': 'Alimento'},
-    {'id': '20', 'nombre': 'Bedidas'},
-    {'id': '1010', 'nombre': 'Carnes'},
-    {'id': '1020', 'nombre': 'Verduras'},
-    {'id': '2010', 'nombre': 'Vinos'},
-    {'id': '30', 'nombre': 'Ferreteria'},
-    {'id': '3010', 'nombre': 'Tornillos'},
-    {'id': '3020', 'nombre': 'Herramientas'},
-    {'id': '302010', 'nombre': 'Electricidad'},
-    {'id': '302020', 'nombre': 'Accesorio de Herramientas'},
-    {'id': '2020', 'nombre': 'Refresco'},
+    {'id': '30', 'nombre': 'Hambuergesas'},
+    {'id': '40', 'nombre': 'Costillas'},
+    {'id': '70', 'nombre': 'Cortes de carne'},
+    {'id': '90', 'nombre': 'Ensaladas'},
+    {'id': '80', 'nombre': 'Bebidas'},
+    {'id': '8010', 'nombre': 'Con alchol'},
+    {'id': '8020', 'nombre': 'Sin alchol'},
   ];
   String _usuario = '';
   final LocalStorage storage = new LocalStorage('user_app');
@@ -45,7 +41,7 @@ class _NavbarState extends State<Navbar> {
       if (anchoPantalla > 900) {
         return Container(
           //padding: EdgeInsets.symmetric(horizontal: 10.0),
-          color: Colors.blue,
+          color: Color(0xFFd11507),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -296,7 +292,7 @@ class _NavbarState extends State<Navbar> {
 
   Widget _menu() {
     return Container(
-      color: Colors.blue[800],
+      color: Color(0xffba1003),
       child: Row(
         children: _addCategoriasMenu(),
       ),
@@ -509,7 +505,7 @@ class ListarMenu extends StatefulWidget {
 }
 
 class _ListarMenuState extends State<ListarMenu> {
-  Color fondoMenu = Colors.blue[800];
+  Color fondoMenu = Color(0xffba1003);
 
   @override
   Widget build(BuildContext context) {

@@ -38,9 +38,11 @@ class _CardProductoState extends State<CardProducto> {
   @override
   Widget build(BuildContext context) {
     var clave = widget.id;
+    final alto = widget.ancho * 1.3;
+    final ancho = widget.ancho - 10;
     return Container(
-      width: widget.ancho - 10,
-      height: widget.ancho * 1.2,
+      width: ancho,
+      height: alto,
       padding: EdgeInsets.all(10.0),
       child: Card(
         child: Column(
@@ -74,8 +76,8 @@ class _CardProductoState extends State<CardProducto> {
         Container(
           child: Image(
             image: NetworkImage(widget.imagen),
-            height: ancho * 0.50,
-            width: ancho * 0.50,
+            height: ancho * 0.70,
+            width: ancho * 0.80,
           ),
         ),
       ],
@@ -89,7 +91,7 @@ class _CardProductoState extends State<CardProducto> {
       child: Text(
         nuevonombre,
         style:
-            TextStyle(fontWeight: FontWeight.normal, color: Colors.blue[800]),
+            TextStyle(fontWeight: FontWeight.normal, color: Color(0xffba1003)),
       ),
     );
   }

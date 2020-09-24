@@ -6,7 +6,7 @@ Widget footer() {
     if (anchoPantalla > 900) {
       return Container(
         padding: EdgeInsets.only(top: 20.0),
-        color: Colors.blue,
+        color: Color(0xffd11507),
         child: Column(
           children: [
             _parteUno(),
@@ -117,7 +117,7 @@ Widget _servicioCliente() {
             ],
           ),
           onPressed: () {},
-          color: Colors.blue,
+          color: Color(0xffd11507),
         ),
         SelectableText(
           "info@kingo.com.mx",
