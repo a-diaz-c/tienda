@@ -15,17 +15,13 @@ class _DrawerComponentState extends State<DrawerComponent> {
   ProductosProviders productosProviders = ProductosProviders();
   Map _datosCarrito;
   List<Map<String, dynamic>> categorias = [
-    {'id': '10', 'nombre': 'Alimento'},
-    {'id': '20', 'nombre': 'Bedidas'},
-    {'id': '1010', 'nombre': 'Carnes'},
-    {'id': '1020', 'nombre': 'Verduras'},
-    {'id': '2010', 'nombre': 'Vinos'},
-    {'id': '30', 'nombre': 'Ferreteria'},
-    {'id': '3010', 'nombre': 'Tornillos'},
-    {'id': '3020', 'nombre': 'Herramientas'},
-    {'id': '302010', 'nombre': 'Electricidad'},
-    {'id': '302020', 'nombre': 'Accesorio de Herramientas'},
-    {'id': '2020', 'nombre': 'Refresco'},
+    {'id': '30', 'nombre': 'Hambuergesas'},
+    {'id': '40', 'nombre': 'Costillas'},
+    {'id': '70', 'nombre': 'Cortes de carne'},
+    {'id': '90', 'nombre': 'Ensaladas'},
+    {'id': '80', 'nombre': 'Bebidas'},
+    {'id': '8010', 'nombre': 'Con alchol'},
+    {'id': '8020', 'nombre': 'Sin alchol'},
   ];
   String _usuario = '';
   final LocalStorage storage = new LocalStorage('user_app');
