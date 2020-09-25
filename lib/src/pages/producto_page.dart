@@ -312,10 +312,10 @@ class _ProductoPageState extends State<ProductoPage>
     return RaisedButton(
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.0),
-          side: BorderSide(color: Colors.blue)),
+          side: BorderSide(color: Color(0xFFd11507))),
       child: Text(
         "Agregar al carrito",
-        style: TextStyle(color: Colors.blue, fontSize: 15.0),
+        style: TextStyle(color: Color(0xFFd11507), fontSize: 15.0),
       ),
       color: Colors.white,
       onPressed: () {

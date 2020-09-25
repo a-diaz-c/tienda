@@ -10,6 +10,7 @@ class DrawerComponent extends StatefulWidget {
 }
 
 class _DrawerComponentState extends State<DrawerComponent> {
+  final int colorRojo = 0xFFd11507;
   List<Categoria> lista = [];
   ProductosProviders productosProviders = ProductosProviders();
   Map _datosCarrito;
@@ -67,7 +68,7 @@ class _DrawerComponentState extends State<DrawerComponent> {
   DrawerHeader _headerDrawer() {
     return DrawerHeader(
       decoration: BoxDecoration(
-        color: Colors.blue,
+        color: Color(colorRojo),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -122,10 +123,15 @@ class _DrawerComponentState extends State<DrawerComponent> {
     datos.forEach((element) {
       var familia = element.id;
       if (element.hijos.length != 0) {
-        todo.add(ExpansionTile(
-          title: Text(element.nombre),
-          children: _listarCategorias(element.hijos),
-        ));
+        todo.add(
+          ExpansionTile(
+            title: Text(
+              element.nombre,
+              style: TextStyle(color: Colors.black),
+            ),
+            children: _listarCategorias(element.hijos),
+          ),
+        );
       } else {
         todo.add(ListTile(
           title: Text(element.nombre),

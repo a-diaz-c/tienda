@@ -26,6 +26,7 @@ class _NavbarState extends State<Navbar> {
   ];
   String _usuario = '';
   final LocalStorage storage = new LocalStorage('user_app');
+  final int colorRojo = 0xFFd11507;
   @override
   void initState() {
     super.initState();
@@ -41,7 +42,7 @@ class _NavbarState extends State<Navbar> {
       if (anchoPantalla > 900) {
         return Container(
           //padding: EdgeInsets.symmetric(horizontal: 10.0),
-          color: Color(0xFFd11507),
+          color: Color(colorRojo),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -78,7 +79,7 @@ class _NavbarState extends State<Navbar> {
       else {
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-          color: Colors.blue,
+          color: Color(colorRojo),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -303,11 +304,39 @@ class _NavbarState extends State<Navbar> {
     List<Widget> salida = [];
     lista.forEach((element) {
       //salida.add(_itemMenu(element.nombre, element.hijos));
-      salida.add(ListarMenu(
-        title: element.nombre,
-        hijos: element.hijos,
-        rootMenu: true,
-      ));
+      if (element.hijos.isEmpty) {
+        salida.add(
+          Container(
+            child: Padding(
+              padding: const EdgeInsets.all(2.0),
+              child: Material(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5.0),
+                ),
+                color: Color(0xffba1003),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: InkWell(
+                    child: Text(
+                      element.nombre,
+                      style: TextStyle(color: Colors.white, fontSize: 18),
+                    ),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/productos/' + element.id);
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      } else {
+        salida.add(ListarMenu(
+          title: element.nombre,
+          hijos: element.hijos,
+          rootMenu: true,
+        ));
+      }
     });
     return salida;
   }
@@ -331,11 +360,11 @@ class _NavbarState extends State<Navbar> {
                 child: Text(
                   "Login",
                   style: TextStyle(
-                      color: Colors.blue, fontWeight: FontWeight.bold),
+                      color: Color(colorRojo), fontWeight: FontWeight.bold),
                 ),
               ),
               SizedBox(width: 20.0),
-              Icon(Icons.account_box, color: Colors.blue)
+              Icon(Icons.account_box, color: Color(colorRojo))
             ],
           ),
           content: Stack(
@@ -429,7 +458,7 @@ class _NavbarState extends State<Navbar> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15.0),
                         ),
-                        color: Colors.blue,
+                        color: Color(0xFFd11507),
                         onPressed: () async {
                           if (_formKey.currentState.validate()) {
                             final res = await usuariosProviders.login(
@@ -543,7 +572,6 @@ class _ListarMenuState extends State<ListarMenu> {
             ),
             color: fondoMenu,
             textStyle: Theme.of(context).textTheme.subtitle1,
-            elevation: widget.rootMenu ? 2.0 : 0.0,
             child: Padding(
               padding:
                   widget.rootMenu ? EdgeInsets.all(8.0) : EdgeInsets.all(0.0),

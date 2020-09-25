@@ -81,7 +81,7 @@ class ProductosProviders {
       'familia_prod': '90',
       'imagen':
           'https://menu.applebees.com.mx/wp-content/uploads/2020/06/Buffalo-Salad.jpg',
-      'marca': 'Wal front'
+      'marca': ''
     },
     {
       'clave_producto': '110',
@@ -90,7 +90,7 @@ class ProductosProviders {
       'familia_prod': '90',
       'imagen':
           'https://menu.applebees.com.mx/wp-content/uploads/2020/06/Oriental-Chicken-Salad.jpg',
-      'marca': 'Wal front'
+      'marca': ''
     },
     {
       'clave_producto': '111',
@@ -117,7 +117,7 @@ class ProductosProviders {
       'familia_prod': '8010',
       'imagen':
           'https://applebees.com.mx/wp-content/uploads/2020/05/PerfectMargarita.jpg',
-      'marca': 'Portillo'
+      'marca': ''
     },
   ];
   final LocalStorage storage = new LocalStorage('user_app');
