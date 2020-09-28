@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_web_scrollbar/flutter_web_scrollbar.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:tienda/src/components/dialogPregunta.dart';
 
@@ -21,7 +22,7 @@ class ProductoPage extends StatefulWidget {
 
 class _ProductoPageState extends State<ProductoPage>
     with SingleTickerProviderStateMixin {
-  ScrollController _rrectController = ScrollController();
+  ScrollController _scrollController;
   ProductosProviders providers = ProductosProviders();
   Map producto;
   TabController _tabController;
@@ -30,9 +31,17 @@ class _ProductoPageState extends State<ProductoPage>
   @override
   void initState() {
     super.initState();
+    _scrollController = ScrollController();
     producto = providers.buscarProducto(widget.id);
     _tabController = new TabController(length: 4, vsync: this);
     _tabController.addListener(_handleTabSelection);
+  }
+
+  void scrollCallBack(DragUpdateDetails dragUpdate) {
+    setState(() {
+      // Note: 3.5 represents the theoretical height of all my scrollable content. This number will vary for you.
+      _scrollController.position.moveTo(dragUpdate.globalPosition.dy * 3.5);
+    });
   }
 
   _handleTabSelection() {
@@ -46,27 +55,39 @@ class _ProductoPageState extends State<ProductoPage>
     double _anchoPantalla = MediaQuery.of(context).size.width;
     return Scaffold(
       drawer: DrawerComponent(),
-      body: DraggableScrollbar.rrect(
-        alwaysVisibleScrollThumb: true,
-        controller: _rrectController,
-        backgroundColor: Colors.grey[300],
-        child: ListView(
-          controller: _rrectController,
-          children: [
-            Navbar(),
-            LayoutBuilder(builder: (context, constraints) {
-              if (MediaQuery.of(context).size.width > 900) {
-                return _cardProducto(_anchoPantalla * 0.60);
-              } else {
-                return _cardProductoMovil(_anchoPantalla * 0.90);
-              }
-            }),
-            _tabs(MediaQuery.of(context).size.width > 900
-                ? _anchoPantalla * 0.60
-                : _anchoPantalla * 0.90),
-            footer(),
-          ],
-        ),
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            controller: _scrollController,
+            child: Column(
+              children: [
+                Navbar(),
+                LayoutBuilder(builder: (context, constraints) {
+                  if (MediaQuery.of(context).size.width > 900) {
+                    return _cardProducto(_anchoPantalla * 0.60);
+                  } else {
+                    return _cardProductoMovil(_anchoPantalla * 0.90);
+                  }
+                }),
+                _tabs(MediaQuery.of(context).size.width > 900
+                    ? _anchoPantalla * 0.60
+                    : _anchoPantalla * 0.90),
+                footer(),
+              ],
+            ),
+          ),
+          FlutterWebScroller(
+            //Pass a reference to the ScrollCallBack function into the scrollbar
+            scrollCallBack,
+            //Add optional values
+            scrollBarBackgroundColor: Colors.white,
+            scrollBarWidth: 20.0,
+            dragHandleColor: Colors.grey[400],
+            dragHandleBorderRadius: 2.0,
+            dragHandleHeight: 40.0,
+            dragHandleWidth: 15.0,
+          ),
+        ],
       ),
     );
   }
@@ -165,54 +186,6 @@ class _ProductoPageState extends State<ProductoPage>
             ),
           ),
           SizedBox(height: 10.0),
-          Container(
-            child: Row(
-              children: [
-                Text(
-                  "Marca: ",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: textDatosProductos),
-                ),
-                Text(
-                  "TRUPER",
-                  style: TextStyle(fontSize: textDatosProductos),
-                )
-              ],
-            ),
-          ),
-          Container(
-            child: Row(
-              children: [
-                Text(
-                  "Marca: ",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: textDatosProductos),
-                ),
-                Text(
-                  "CMA0301050027",
-                  style: TextStyle(fontSize: textDatosProductos),
-                )
-              ],
-            ),
-          ),
-          Container(
-            child: Row(
-              children: [
-                Text(
-                  "Unidad de venta: ",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: textDatosProductos),
-                ),
-                Text(
-                  "Kilos",
-                  style: TextStyle(fontSize: textDatosProductos),
-                )
-              ],
-            ),
-          ),
           _iconos(
               Icons.local_shipping,
               "Envíos Gratis",
@@ -220,8 +193,8 @@ class _ProductoPageState extends State<ProductoPage>
               sizeTitulo * 1.42,
               colorTexto: Colors.orange),
           SizedBox(height: 15.0),
-          _iconos(Icons.verified_user, "Garantía Construrama",
-              "Seguridad en todas tus compras", sizeTitulo * 1.42,
+          _iconos(Icons.verified_user, "Garantía AppleBee's",
+              "Garantia de sabor", sizeTitulo * 1.42,
               colorTexto: Colors.green),
           SizedBox(height: 15.0),
           _iconos(
@@ -263,15 +236,15 @@ class _ProductoPageState extends State<ProductoPage>
       children: [
         Container(
           child: SelectableText(
-            'Características',
+            'Descripción',
             style: TextStyle(
-                fontSize: sizeTexto * 0.571, fontWeight: FontWeight.bold),
+                fontSize: sizeTexto * 0.871, fontWeight: FontWeight.bold),
           ),
         ),
         Container(
           child: SelectableText(
-            'Clavo negro para concreto de 2 pulgadas (50.8 Mm). Fabricado en acero al carbono. Con cuerpo rolado especial que facilita la penetración y proporciona mayor resistencia.',
-            style: TextStyle(fontSize: sizeTexto * 0.50),
+            producto['descripcion'],
+            style: TextStyle(fontSize: sizeTexto * 0.80),
           ),
         ),
       ],

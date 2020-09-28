@@ -25,7 +25,6 @@ class _HomePageState extends State<HomePage> {
   List<String> filtro = [];
 
   ProductosProviders providers = ProductosProviders();
-  ScrollController _rrectController = ScrollController();
   @override
   void initState() {
     super.initState();
@@ -73,23 +72,25 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: DrawerComponent(),
-      body: Stack(children: [
-        SingleChildScrollView(
-          controller: _controller,
-          child: _escritrio(),
-        ),
-        FlutterWebScroller(
-          //Pass a reference to the ScrollCallBack function into the scrollbar
-          scrollCallBack,
-          //Add optional values
-          scrollBarBackgroundColor: Colors.white,
-          scrollBarWidth: 20.0,
-          dragHandleColor: Colors.grey[400],
-          dragHandleBorderRadius: 2.0,
-          dragHandleHeight: 40.0,
-          dragHandleWidth: 15.0,
-        ),
-      ]),
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            controller: _controller,
+            child: _escritrio(),
+          ),
+          FlutterWebScroller(
+            //Pass a reference to the ScrollCallBack function into the scrollbar
+            scrollCallBack,
+            //Add optional values
+            scrollBarBackgroundColor: Colors.white,
+            scrollBarWidth: 20.0,
+            dragHandleColor: Colors.grey[400],
+            dragHandleBorderRadius: 2.0,
+            dragHandleHeight: 40.0,
+            dragHandleWidth: 15.0,
+          ),
+        ],
+      ),
     );
   }
 
@@ -120,22 +121,6 @@ class _HomePageState extends State<HomePage> {
         productos.isEmpty ? _cuerpoVacio() : _cuerpo(),
         footer(),
       ],
-    );
-  }
-
-  Widget _movil() {
-    return DraggableScrollbar.rrect(
-      alwaysVisibleScrollThumb: true,
-      controller: _rrectController,
-      backgroundColor: Colors.grey[300],
-      child: ListView(
-        controller: _rrectController,
-        children: [
-          Navbar(),
-          productos.isEmpty ? _cuerpoVacio() : _cuerpo(),
-          footer(),
-        ],
-      ),
     );
   }
 

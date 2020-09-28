@@ -9,7 +9,9 @@ class ProductosProviders {
       'familia_prod': '30',
       'imagen':
           'https://menu.applebees.com.mx/wp-content/uploads/2020/06/Texan-burger-e1592004708758.jpg',
-      'marca': ''
+      'marca': '',
+      'descripcion':
+          'Hamburguesa con trocitos de brisket de res BBQ, cebolla, chile jalapeño fresco, queso Cheddar blanco y nuestra salsa especial de la casa.'
     },
     {
       'clave_producto': '102',
@@ -18,7 +20,9 @@ class ProductosProviders {
       'familia_prod': '30',
       'imagen':
           'https://menu.applebees.com.mx/wp-content/uploads/2020/06/Cowboy-Burger.jpg',
-      'marca': ''
+      'marca': '',
+      'descripcion':
+          'Hamburguesa cubierta con crujientes tiras de cebolla, queso Cheddar blanco, tocino ahumado, lechuga, tomate, cebolla, pepinillos y salsa BBQ.'
     },
     {
       'clave_producto': '103',
@@ -27,7 +31,9 @@ class ProductosProviders {
       'familia_prod': '30',
       'imagen':
           'https://menu.applebees.com.mx/wp-content/uploads/2020/06/Avocado-Burger.jpg',
-      'marca': ''
+      'marca': '',
+      'descripcion':
+          'Hamburguesa cubierta con queso suizo, tocino y aguacate. Servida con mayonesa de tomates secos.'
     },
     {
       'clave_producto': '104',
@@ -36,7 +42,9 @@ class ProductosProviders {
       'familia_prod': '40',
       'imagen':
           'https://menu.applebees.com.mx/wp-content/uploads/2020/06/Riblets-Smaller-Portion.jpg',
-      'marca': ''
+      'marca': '',
+      'descripcion':
+          'Costillas de cerdo ahumadas y bañadas con la salsa de tu elección. Se sirven con papas fritas y elote. Porción Regular y Riblets Basket (Half size)'
     },
     {
       'clave_producto': '105',
@@ -45,7 +53,9 @@ class ProductosProviders {
       'familia_prod': '302010',
       'imagen':
           'https://menu.applebees.com.mx/wp-content/uploads/2020/06/Double-glazed-Ribs.jpg',
-      'marca': ''
+      'marca': '',
+      'descripcion':
+          'Costillar de cerdo asado a la parrilla, bañado con salsa de tu elección. Se sirven con papas fritas y elote. Porción Regular y Medio Costillar'
     },
     {
       'clave_producto': '106',
@@ -54,7 +64,9 @@ class ProductosProviders {
       'familia_prod': '70',
       'imagen':
           'https://menu.applebees.com.mx/wp-content/uploads/2020/06/Shrimp-Parmesan-Steak-New-Photo.jpg',
-      'marca': ''
+      'marca': '',
+      'descripcion':
+          'Tierno corte acompañado de suculentos camarones y quesos italianos. Se sirve con selección de 2 guarniciones.'
     },
     {
       'clave_producto': '107',
@@ -63,7 +75,8 @@ class ProductosProviders {
       'familia_prod': '70',
       'imagen':
           'https://menu.applebees.com.mx/wp-content/uploads/2020/06/House-Steak.jpg',
-      'marca': ''
+      'marca': '',
+      'descripcion': ''
     },
     {
       'clave_producto': '108',
@@ -72,7 +85,8 @@ class ProductosProviders {
       'familia_prod': '70',
       'imagen':
           'https://menu.applebees.com.mx/wp-content/uploads/2020/06/Bourbon-Street-Steak.jpg',
-      'marca': ''
+      'marca': '',
+      'descripcion': ''
     },
     {
       'clave_producto': '109',
@@ -81,7 +95,8 @@ class ProductosProviders {
       'familia_prod': '90',
       'imagen':
           'https://menu.applebees.com.mx/wp-content/uploads/2020/06/Buffalo-Salad.jpg',
-      'marca': ''
+      'marca': '',
+      'descripcion': ''
     },
     {
       'clave_producto': '110',
@@ -90,7 +105,8 @@ class ProductosProviders {
       'familia_prod': '90',
       'imagen':
           'https://menu.applebees.com.mx/wp-content/uploads/2020/06/Oriental-Chicken-Salad.jpg',
-      'marca': ''
+      'marca': '',
+      'descripcion': ''
     },
     {
       'clave_producto': '111',
@@ -99,7 +115,8 @@ class ProductosProviders {
       'familia_prod': '8010',
       'imagen':
           'https://applebees.com.mx/wp-content/uploads/2020/05/BudLight_Brewtusv1a_HR.jpg',
-      'marca': ''
+      'marca': '',
+      'descripcion': ''
     },
     {
       'clave_producto': '112',
@@ -108,7 +125,8 @@ class ProductosProviders {
       'familia_prod': '8010',
       'imagen':
           'https://applebees.com.mx/wp-content/uploads/2020/05/PerfectCosmo.jpg',
-      'marca': ''
+      'marca': '',
+      'descripcion': ''
     },
     {
       'clave_producto': '113',
@@ -117,7 +135,8 @@ class ProductosProviders {
       'familia_prod': '8010',
       'imagen':
           'https://applebees.com.mx/wp-content/uploads/2020/05/PerfectMargarita.jpg',
-      'marca': ''
+      'marca': '',
+      'descripcion': ''
     },
   ];
   final LocalStorage storage = new LocalStorage('user_app');
