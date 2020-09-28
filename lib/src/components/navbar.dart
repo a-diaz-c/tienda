@@ -42,7 +42,7 @@ class _NavbarState extends State<Navbar> {
       if (anchoPantalla > 900) {
         return Container(
           //padding: EdgeInsets.symmetric(horizontal: 10.0),
-          color: Color(colorRojo),
+          color: Colors.black,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -52,34 +52,10 @@ class _NavbarState extends State<Navbar> {
             ],
           ),
         );
-      } /*else if (anchoPantalla > 500 && anchoPantalla <= 900) {
+      } else {
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-          color: Colors.blue,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _textoNavBar(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _logoTienda(),
-                  _carrito(context),
-                ],
-              ),
-              Row(
-                children: [
-                  _textField(anchoPantalla),
-                ],
-              ),
-            ],
-          ),
-        );
-      } */
-      else {
-        return Container(
-          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-          color: Color(colorRojo),
+          color: Colors.black,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -88,7 +64,10 @@ class _NavbarState extends State<Navbar> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   IconButton(
-                    icon: Icon(Icons.menu),
+                    icon: Icon(
+                      Icons.menu,
+                      color: Colors.white,
+                    ),
                     onPressed: () {
                       Scaffold.of(context).openDrawer();
                     },
@@ -302,34 +281,11 @@ class _NavbarState extends State<Navbar> {
 
   List<Widget> _addCategoriasMenu() {
     List<Widget> salida = [];
+    salida.add(_itemMenu('Todos', '/'));
+
     lista.forEach((element) {
-      //salida.add(_itemMenu(element.nombre, element.hijos));
       if (element.hijos.isEmpty) {
-        salida.add(
-          Container(
-            child: Padding(
-              padding: const EdgeInsets.all(2.0),
-              child: Material(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5.0),
-                ),
-                color: Color(0xffba1003),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: InkWell(
-                    child: Text(
-                      element.nombre,
-                      style: TextStyle(color: Colors.white, fontSize: 18),
-                    ),
-                    onTap: () {
-                      Navigator.pushNamed(context, '/productos/' + element.id);
-                    },
-                  ),
-                ),
-              ),
-            ),
-          ),
-        );
+        salida.add(_itemMenu(element.nombre, '/productos/' + element.id));
       } else {
         salida.add(ListarMenu(
           title: element.nombre,
@@ -339,6 +295,32 @@ class _NavbarState extends State<Navbar> {
       }
     });
     return salida;
+  }
+
+  Widget _itemMenu(String titulo, String ruta) {
+    return Container(
+      child: Padding(
+        padding: const EdgeInsets.all(2.0),
+        child: Material(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5.0),
+          ),
+          color: Color(0xffba1003),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: InkWell(
+              child: Text(
+                titulo,
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
+              onTap: () {
+                Navigator.pushNamed(context, ruta);
+              },
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   _mostrarFormulario(BuildContext context) {

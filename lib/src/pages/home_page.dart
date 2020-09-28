@@ -112,6 +112,9 @@ class _HomePageState extends State<HomePage> {
                 Image(
                   image: AssetImage('images/img2.JPG'),
                 ),
+                Image(
+                  image: AssetImage('images/img3.JPG'),
+                ),
               ],
             )),
         productos.isEmpty ? _cuerpoVacio() : _cuerpo(),
