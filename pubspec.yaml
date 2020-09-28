@@ -36,6 +36,7 @@ dependencies:
   toast: ^0.1.5
   email_validator: '^1.0.0'
   carousel_pro: ^1.0.0
+  flutter_web_scrollbar: ^0.0.2
 
 dev_dependencies:
   flutter_test:
