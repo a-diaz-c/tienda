@@ -57,7 +57,6 @@ class _DrawerComponentState extends State<DrawerComponent> {
           'Acero', ['Alambre y alambron', 'Castillo', 'Malla Electrosoldada']),
       _itemCategoria('Otro Materiales', ['Cemento Blanco', 'Cemento Extra']),
       _itemCategoria('Acabados', ['Cemento Blanco', 'Cemento Extra']),*/
-      ..._listarCategorias(lista),
     ];
   }
 

@@ -139,7 +139,7 @@ class _NavbarState extends State<Navbar> {
     return Container(
       child: InkWell(
         child: Image(
-          image: AssetImage('images/LogotipoPaginaWeb.png'),
+          image: AssetImage('images/logo.JPG'),
         ),
         onTap: () {
           Navigator.pushNamed(context, '/');

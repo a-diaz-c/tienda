@@ -38,7 +38,7 @@ Widget _parteUno() {
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Image(image: AssetImage('images/LogotipoPaginaWeb.png')),
+        Image(image: AssetImage('images/logo.JPG')),
         _soporte(MainAxisAlignment.start),
         _servicioCliente(),
       ],

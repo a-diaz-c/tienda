@@ -1,3 +1,4 @@
+import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:tienda/src/components/cardProductos.dart';
 import 'package:tienda/src/components/contentDialogFiltro.dart';
@@ -62,7 +63,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: DrawerComponent(),
-      body: MediaQuery.of(context).size.width > 900 ? _escritrio() : _movil(),
+      body: _escritrio(),
     );
   }
 
@@ -75,6 +76,31 @@ class _HomePageState extends State<HomePage> {
         controller: _rrectController,
         children: [
           Navbar(),
+          Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.width > 900
+                      ? 300
+                      : MediaQuery.of(context).size.width * 0.40,
+                  width: MediaQuery.of(context).size.width > 900
+                      ? 1000
+                      : MediaQuery.of(context).size.width,
+                  child: Carousel(
+                    images: [
+                      Image(
+                        image: AssetImage('images/img1.JPG'),
+                      ),
+                      Image(
+                        image: AssetImage('images/img2.JPG'),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
           productos.isEmpty ? _cuerpoVacio() : _cuerpo(),
           footer(),
         ],
@@ -121,9 +147,9 @@ class _HomePageState extends State<HomePage> {
             MediaQuery.of(context).size.width * 0.85;
         return Container(
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _menuLateral(),
               Container(
                 width: anchoContendorProductos,
                 padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15.0),
@@ -146,10 +172,7 @@ class _HomePageState extends State<HomePage> {
               Container(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _filtrosMovil(),
-                    ..._mostrarProductos(anchoContendorProductos, 3)
-                  ],
+                  children: [..._mostrarProductos(anchoContendorProductos, 3)],
                 ),
               )
             ],
@@ -167,10 +190,7 @@ class _HomePageState extends State<HomePage> {
               Container(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _filtrosMovil(),
-                    ..._mostrarProductos(anchoContendorProductos, 2)
-                  ],
+                  children: [..._mostrarProductos(anchoContendorProductos, 2)],
                 ),
               )
             ],
@@ -187,7 +207,6 @@ class _HomePageState extends State<HomePage> {
               Container(
                 child: Column(
                   children: [
-                    _filtrosMovil(),
                     ..._filaProductoExtraChica(anchoContendorProductos)
                   ],
                 ),
