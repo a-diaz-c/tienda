@@ -49,14 +49,7 @@ class _DrawerComponentState extends State<DrawerComponent> {
   List<Widget> _crearItemsMenu() {
     return [
       _headerDrawer(),
-      /*_itemDrawer('Iniciar Sesion', Icons.perm_identity),
-      _itemDrawer('Profile', Icons.account_circle),
-      _itemDrawer('Settings', Icons.settings),*/
-      /* _itemCategoria('Cemento', ['Cemento Blanco', 'Cemento Extra']),
-      _itemCategoria(
-          'Acero', ['Alambre y alambron', 'Castillo', 'Malla Electrosoldada']),
-      _itemCategoria('Otro Materiales', ['Cemento Blanco', 'Cemento Extra']),
-      _itemCategoria('Acabados', ['Cemento Blanco', 'Cemento Extra']),*/
+      ..._listarCategorias(lista),
     ];
   }
 

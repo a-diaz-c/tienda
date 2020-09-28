@@ -81,7 +81,6 @@ class _HomePageState extends State<HomePage> {
         FlutterWebScroller(
           //Pass a reference to the ScrollCallBack function into the scrollbar
           scrollCallBack,
-
           //Add optional values
           scrollBarBackgroundColor: Colors.white,
           scrollBarWidth: 20.0,
@@ -99,14 +98,20 @@ class _HomePageState extends State<HomePage> {
       children: [
         Navbar(),
         SizedBox(
-            height: 150.0,
-            width: 300.0,
+            height: MediaQuery.of(context).size.width > 900
+                ? 300
+                : MediaQuery.of(context).size.width * 0.40,
+            width: MediaQuery.of(context).size.width > 900
+                ? 1000
+                : MediaQuery.of(context).size.width,
             child: Carousel(
               images: [
-                NetworkImage(
-                    'https://cdn-images-1.medium.com/max/2000/1*GqdzzfB_BHorv7V2NV7Jgg.jpeg'),
-                NetworkImage(
-                    'https://cdn-images-1.medium.com/max/2000/1*wnIEgP1gNMrK5gZU7QS0-A.jpeg'),
+                Image(
+                  image: AssetImage('images/img1.JPG'),
+                ),
+                Image(
+                  image: AssetImage('images/img2.JPG'),
+                ),
               ],
             )),
         productos.isEmpty ? _cuerpoVacio() : _cuerpo(),
