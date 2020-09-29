@@ -97,7 +97,7 @@ class _HomePageState extends State<HomePage> {
     return Column(
       children: [
         Navbar(),
-        /* SizedBox(
+        SizedBox(
           height: MediaQuery.of(context).size.width > 900
               ? 300
               : MediaQuery.of(context).size.width * 0.40,
@@ -117,7 +117,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
           ),
-        ), */
+        ),
         productos.isEmpty ? _cuerpoVacio() : _cuerpo(),
         footer(),
       ],
