@@ -238,13 +238,13 @@ class _ProductoPageState extends State<ProductoPage>
           child: SelectableText(
             'Descripción',
             style: TextStyle(
-                fontSize: sizeTexto * 0.871, fontWeight: FontWeight.bold),
+                fontSize: sizeTexto * 0.771, fontWeight: FontWeight.bold),
           ),
         ),
         Container(
           child: SelectableText(
             producto['descripcion'],
-            style: TextStyle(fontSize: sizeTexto * 0.80),
+            style: TextStyle(fontSize: sizeTexto * 0.70),
           ),
         ),
       ],

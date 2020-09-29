@@ -38,7 +38,8 @@ class _DireccionesPageState extends State<DireccionesPage> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Navbar(),
-                widget.tipo == "1" ? _envio() : _facturacion(),
+                //widget.tipo == "1" ? _envio() : _facturacion(),
+                _asignarFormulario(),
                 footer(),
               ],
             ),
@@ -46,6 +47,23 @@ class _DireccionesPageState extends State<DireccionesPage> {
         ),
       ),
     );
+  }
+
+  Widget _asignarFormulario() {
+    switch (widget.tipo) {
+      case "1":
+        return _envio();
+        break;
+      case "2":
+        return _facturacion();
+        break;
+      case "3":
+        return _recogerTienda();
+        break;
+      default:
+        return _envio();
+        break;
+    }
   }
 
   Widget _envio() {
@@ -530,6 +548,116 @@ class _DireccionesPageState extends State<DireccionesPage> {
                   ),
                   onChanged: (value) {
                     usoDeCEDI = value;
+                  },
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Nombre';
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: RaisedButton(
+                  child: Text(
+                    "Guardar",
+                    style: TextStyle(),
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  color: Colors.amber,
+                  onPressed: () {
+                    if (_keylogin.currentState.validate()) {
+                      Navigator.pushNamed(context, '/pago');
+                    }
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _recogerTienda() {
+    final _keylogin = GlobalKey<FormState>();
+    String nombre = 'Hector';
+    String apellido = 'Nunez';
+    String telefono = '7444849493';
+
+    return Column(
+      children: [
+        Text('Datos de Entrega'),
+        Form(
+          key: _keylogin,
+          child: Column(
+            children: [
+              Container(
+                height: 40,
+                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                child: TextFormField(
+                  initialValue: nombre,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    labelText: 'Nombre',
+                    contentPadding: paddingInput,
+                    errorStyle: TextStyle(height: 0),
+                  ),
+                  onChanged: (value) {
+                    nombre = value;
+                  },
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Nombre';
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              Container(
+                height: 40,
+                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                child: TextFormField(
+                  initialValue: apellido,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    labelText: 'Apellido',
+                    contentPadding: paddingInput,
+                    errorStyle: TextStyle(height: 0),
+                  ),
+                  onChanged: (value) {
+                    apellido = value;
+                  },
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Nombre';
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              Container(
+                height: 40,
+                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                child: TextFormField(
+                  initialValue: telefono,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    labelText: 'Telefono',
+                    contentPadding: paddingInput,
+                    errorStyle: TextStyle(height: 0),
+                  ),
+                  onChanged: (value) {
+                    telefono = value;
                   },
                   validator: (value) {
                     if (value.isEmpty) {

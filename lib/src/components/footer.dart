@@ -18,7 +18,7 @@ Widget footer() {
     } else {
       return Container(
         padding: EdgeInsets.only(top: 20.0),
-        color: Colors.blue,
+        color: Color(0xffd11507),
         child: Column(
           children: [
             _soporte(MainAxisAlignment.start),

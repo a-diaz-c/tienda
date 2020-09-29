@@ -20,10 +20,12 @@ class _PagoPageState extends State<PagoPage>
   double _costoEnvio = 0;
   double _total;
   double _ancho;
-  bool _estafeta = false;
-  bool _ups = false;
   bool _paypal = false;
   bool _tarjeta = false;
+  bool _efectivo = false;
+  bool _envioDomicilio = true;
+  bool _recogerTienda = false;
+  bool _factura = false;
   List datos = [];
 
   Map<String, dynamic> envio = {
@@ -41,6 +43,12 @@ class _PagoPageState extends State<PagoPage>
     'ciudad': 'Acapulco',
     'estado': 'Guerrero',
     'pais': 'México',
+  };
+
+  Map<String, dynamic> datosRecoger = {
+    'nombre': 'Hector',
+    'apellidos': 'Nunez',
+    'telefono': '7444849493',
   };
 
   Map<String, dynamic> factura = {
@@ -221,51 +229,127 @@ class _PagoPageState extends State<PagoPage>
   Widget _direcciones(double ancho) {
     return Column(
       children: [
-        Card(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-                child: Text(
-                  'Direccion de envio',
-                  style: TextStyle(fontSize: 20),
+        Container(
+          height: 100,
+          child: Card(
+            child: Row(
+              children: [
+                Checkbox(
+                  value: _envioDomicilio,
+                  onChanged: (bool value) {
+                    setState(() {
+                      _envioDomicilio = value;
+                      _recogerTienda = false;
+                    });
+                  },
                 ),
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                child: Text('Verifique sus direccion de envio'),
-              ),
-              if (MediaQuery.of(context).size.width > 900)
-                _direccionEnvioWeb(ancho)
-              else
-                ..._direccionEnvioMovil(ancho)
-            ],
+                Expanded(child: Text('Enviar')),
+                SizedBox(width: 10.0),
+                Checkbox(
+                  value: _recogerTienda,
+                  onChanged: (bool value) {
+                    setState(() {
+                      _recogerTienda = value;
+                      _envioDomicilio = false;
+                    });
+                  },
+                ),
+                Expanded(child: Text('Recoger en tienda')),
+              ],
+            ),
+          ),
+        ),
+        _recogerTienda ? _cardRecogerTienda(ancho) : _cardEnvioDomicilio(ancho),
+        Container(
+          height: 100,
+          child: Card(
+            child: Row(
+              children: [
+                Checkbox(
+                  value: _factura,
+                  onChanged: (bool value) {
+                    setState(() {
+                      _factura = value;
+                    });
+                  },
+                ),
+                Expanded(child: Text('Factura')),
+              ],
+            ),
           ),
         ),
         Card(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-                child: Text(
-                  'Direccion de facturacion',
-                  style: TextStyle(fontSize: 20),
+          child: Opacity(
+            opacity: _factura ? 1 : 0.3,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                  child: Text(
+                    'Direccion de facturacion',
+                    style: TextStyle(fontSize: 20),
+                  ),
                 ),
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                child: Text('Verifique sus de facturacion'),
-              ),
-              if (MediaQuery.of(context).size.width > 900)
-                _direccionFacturaWeb(ancho)
-              else
-                ..._direccionFacturaMovil(ancho),
-            ],
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                  child: Text('Verifique sus de facturacion'),
+                ),
+                if (MediaQuery.of(context).size.width > 900)
+                  _direccionFacturaWeb(ancho)
+                else
+                  ..._direccionFacturaMovil(ancho),
+              ],
+            ),
           ),
         )
       ],
+    );
+  }
+
+  Widget _cardEnvioDomicilio(ancho) {
+    return Card(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+            child: Text(
+              'Direccion de envio',
+              style: TextStyle(fontSize: 20),
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+            child: Text('Verifique sus direccion de envio'),
+          ),
+          if (MediaQuery.of(context).size.width > 900)
+            _direccionEnvioWeb(ancho)
+          else
+            ..._direccionEnvioMovil(ancho)
+        ],
+      ),
+    );
+  }
+
+  Widget _cardRecogerTienda(ancho) {
+    return Card(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+            child: Text(
+              'Datos de entrega',
+              style: TextStyle(fontSize: 20),
+            ),
+          ),
+          if (MediaQuery.of(context).size.width > 900)
+            _datosRecogerTienda(ancho)
+          else
+            ..._datosRecogerTiendaMovil(ancho)
+        ],
+      ),
     );
   }
 
@@ -275,7 +359,7 @@ class _PagoPageState extends State<PagoPage>
       children: [
         _cardEnvio(ancho),
         Column(
-          children: [_botonEditar('/direcciones/1')],
+          children: [_botonEditar('/direcciones/1', _envioDomicilio)],
         )
       ],
     );
@@ -284,7 +368,26 @@ class _PagoPageState extends State<PagoPage>
   List<Widget> _direccionEnvioMovil(double ancho) {
     return [
       _cardEnvio(ancho),
-      _botonEditar('/direcciones/1'),
+      _botonEditar('/direcciones/1', _envioDomicilio),
+    ];
+  }
+
+  Widget _datosRecogerTienda(double ancho) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _cardDatosEntrega(ancho),
+        Column(
+          children: [_botonEditar('/direcciones/3', _recogerTienda)],
+        )
+      ],
+    );
+  }
+
+  List<Widget> _datosRecogerTiendaMovil(double ancho) {
+    return [
+      _cardDatosEntrega(ancho),
+      _botonEditar('/direcciones/3', _recogerTienda),
     ];
   }
 
@@ -297,7 +400,9 @@ class _PagoPageState extends State<PagoPage>
           children: [
             ListTile(
               title: Text(envio['nombre']),
-              subtitle: Text(envio['empresa']),
+              subtitle: Text(
+                envio['empresa'],
+              ),
             ),
             Text(
                 envio['calle'] + ' ' + envio['numExt'] + ' ' + envio['numInt']),
@@ -313,12 +418,34 @@ class _PagoPageState extends State<PagoPage>
     );
   }
 
+  Widget _cardDatosEntrega(double ancho) {
+    print(datosRecoger['nombre']);
+    return Container(
+      height: 250,
+      width: ancho,
+      child: Card(
+        child: Column(
+          children: [
+            Text(
+              'Nombre, ' + datosRecoger['nombre'],
+              style: TextStyle(fontSize: 15),
+            ),
+            Text('Apellido, ' + datosRecoger['apellidos'],
+                style: TextStyle(fontSize: 15)),
+            Text('Tel, ' + datosRecoger['telefono'],
+                style: TextStyle(fontSize: 15))
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _direccionFacturaWeb(double ancho) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _cardFactura(ancho),
-        _botonEditar('/direcciones/2'),
+        _botonEditar('/direcciones/2', _factura),
       ],
     );
   }
@@ -326,7 +453,7 @@ class _PagoPageState extends State<PagoPage>
   List<Widget> _direccionFacturaMovil(double ancho) {
     return [
       _cardFactura(ancho),
-      _botonEditar('/direcciones/2'),
+      _botonEditar('/direcciones/2', _factura),
     ];
   }
 
@@ -360,7 +487,7 @@ class _PagoPageState extends State<PagoPage>
     );
   }
 
-  Widget _botonEditar(String ruta) {
+  Widget _botonEditar(String ruta, bool activo) {
     return Container(
       width: 160,
       child: RaisedButton(
@@ -371,7 +498,7 @@ class _PagoPageState extends State<PagoPage>
           ],
         ),
         onPressed: () {
-          Navigator.pushNamed(context, ruta);
+          if (activo) Navigator.pushNamed(context, ruta);
         },
       ),
     );
@@ -399,78 +526,8 @@ class _PagoPageState extends State<PagoPage>
   Widget _envioPago(double ancho) {
     return Column(
       children: [
-        _opcionesEnvio(ancho),
         _opcionesPago(ancho),
       ],
-    );
-  }
-
-  Widget _opcionesEnvio(double ancho) {
-    return Card(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-            child: Text(
-              'Forma de envío',
-              style: TextStyle(fontSize: 20),
-            ),
-          ),
-          Container(
-            height: 100,
-            width: ancho,
-            child: Card(
-              color: Colors.grey[300],
-              child: Row(
-                children: [
-                  Checkbox(
-                    value: _estafeta,
-                    onChanged: (bool value) {
-                      setState(() {
-                        _estafeta = value;
-                        _ups = false;
-                        _costoEnvio = value ? 99 : 0;
-                      });
-                    },
-                  ),
-                  Expanded(child: Text('Estafeta Terrestre')),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 10.0),
-                    child: Text('\$ 99.00'),
-                  )
-                ],
-              ),
-            ),
-          ),
-          Container(
-            height: 100,
-            width: ancho,
-            child: Card(
-              color: Colors.grey[300],
-              child: Row(
-                children: [
-                  Checkbox(
-                    value: _ups,
-                    onChanged: (bool value) {
-                      setState(() {
-                        _ups = value;
-                        _estafeta = false;
-                        _costoEnvio = value ? 159 : 0;
-                      });
-                    },
-                  ),
-                  Expanded(child: Text('UPS Terrestre')),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 10.0),
-                    child: Text('\$ 159.00'),
-                  )
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
     );
   }
 
@@ -501,6 +558,7 @@ class _PagoPageState extends State<PagoPage>
                           setState(() {
                             _paypal = value;
                             _tarjeta = false;
+                            _efectivo = false;
                           });
                         },
                       ),
@@ -543,6 +601,7 @@ class _PagoPageState extends State<PagoPage>
                           setState(() {
                             _tarjeta = value;
                             _paypal = false;
+                            _efectivo = false;
                           });
                         },
                       ),
@@ -552,6 +611,32 @@ class _PagoPageState extends State<PagoPage>
                   Image(
                     image: AssetImage('images/tarjetas.png'),
                     height: 50,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Container(
+            height: 125,
+            width: ancho,
+            child: Card(
+              color: Colors.grey[300],
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: _efectivo,
+                        onChanged: (bool value) {
+                          setState(() {
+                            _efectivo = value;
+                            _paypal = false;
+                            _tarjeta = false;
+                          });
+                        },
+                      ),
+                      Text('Efectivo')
+                    ],
                   ),
                 ],
               ),

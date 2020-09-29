@@ -7,7 +7,6 @@ import 'package:tienda/src/components/drawer.dart';
 import 'package:tienda/src/components/footer.dart';
 import 'package:tienda/src/components/navbar.dart';
 
-import 'package:draggable_scrollbar/draggable_scrollbar.dart';
 import 'package:tienda/src/providers/productos_providers.dart';
 
 class HomePage extends StatefulWidget {
@@ -98,26 +97,27 @@ class _HomePageState extends State<HomePage> {
     return Column(
       children: [
         Navbar(),
-        SizedBox(
-            height: MediaQuery.of(context).size.width > 900
-                ? 300
-                : MediaQuery.of(context).size.width * 0.40,
-            width: MediaQuery.of(context).size.width > 900
-                ? 1000
-                : MediaQuery.of(context).size.width,
-            child: Carousel(
-              images: [
-                Image(
-                  image: AssetImage('images/img1.JPG'),
-                ),
-                Image(
-                  image: AssetImage('images/img2.JPG'),
-                ),
-                Image(
-                  image: AssetImage('images/img3.JPG'),
-                ),
-              ],
-            )),
+        /* SizedBox(
+          height: MediaQuery.of(context).size.width > 900
+              ? 300
+              : MediaQuery.of(context).size.width * 0.40,
+          width: MediaQuery.of(context).size.width > 900
+              ? 1000
+              : MediaQuery.of(context).size.width,
+          child: Carousel(
+            images: [
+              Image(
+                image: AssetImage('images/img1.JPG'),
+              ),
+              Image(
+                image: AssetImage('images/img2.JPG'),
+              ),
+              Image(
+                image: AssetImage('images/img3.JPG'),
+              ),
+            ],
+          ),
+        ), */
         productos.isEmpty ? _cuerpoVacio() : _cuerpo(),
         footer(),
       ],
