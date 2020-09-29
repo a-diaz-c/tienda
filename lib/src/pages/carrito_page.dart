@@ -250,7 +250,7 @@ class _CarritoPageState extends State<CarritoPage> {
         color: Colors.amber[400],
         onPressed: () {
           setState(() {
-            Navigator.pushNamed(context, '/identificarse');
+            Navigator.pushNamed(context, 'identificarse');
           });
         },
       ),

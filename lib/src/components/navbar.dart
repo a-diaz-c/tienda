@@ -202,7 +202,7 @@ class _NavbarState extends State<Navbar> {
         ],
       ),
       onTap: () {
-        Navigator.pushNamed(context, '/carrito');
+        Navigator.pushNamed(context, 'carrito');
       },
     );
   }
@@ -285,7 +285,7 @@ class _NavbarState extends State<Navbar> {
 
     lista.forEach((element) {
       if (element.hijos.isEmpty) {
-        salida.add(_itemMenu(element.nombre, '/productos/' + element.id));
+        salida.add(_itemMenu(element.nombre, 'productos/' + element.id));
       } else {
         salida.add(ListarMenu(
           title: element.nombre,

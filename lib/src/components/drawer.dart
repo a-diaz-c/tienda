@@ -124,7 +124,7 @@ class _DrawerComponentState extends State<DrawerComponent> {
         todo.add(ListTile(
           title: Text(element.nombre),
           onTap: () {
-            Navigator.pushNamed(context, '/productos/$familia');
+            Navigator.pushNamed(context, 'productos/$familia');
             print(familia);
             setState(() {});
           },
@@ -183,7 +183,7 @@ class _DrawerComponentState extends State<DrawerComponent> {
         ],
       ),
       onTap: () {
-        Navigator.pushNamed(context, '/carrito');
+        Navigator.pushNamed(context, 'carrito');
       },
     );
   }

@@ -196,7 +196,7 @@ class _IdentificarsePageState extends State<IdentificarsePage> {
                       onPressed: () {
                         if (_keylogin.currentState.validate()) {
                           //_login(nombre, password, empresa);
-                          Navigator.pushNamed(context, '/pago');
+                          Navigator.pushNamed(context, 'pago');
                         }
                       },
                     ),
@@ -366,7 +366,7 @@ class _IdentificarsePageState extends State<IdentificarsePage> {
                             _alert("Las contraseñas no son iguales");
                           } else {
                             print('$nombre $email $password $passwordDos');
-                            Navigator.pushNamed(context, '/pago');
+                            Navigator.pushNamed(context, 'pago');
                           }
                         }
                       },

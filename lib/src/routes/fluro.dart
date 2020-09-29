@@ -14,6 +14,16 @@ class FluroRouter {
     handlerFunc: (BuildContext context, Map<String, dynamic> params) =>
         ProductoPage(id: params['id'][0]),
   );
+  static fluro.Handler _direccioneshndler = fluro.Handler(
+    handlerFunc: (BuildContext context, Map<String, dynamic> params) =>
+        DireccionesPage(
+      tipo: params['tipo'][0],
+    ),
+  );
+  static fluro.Handler _carritohandler = fluro.Handler(
+    handlerFunc: (BuildContext context, Map<String, dynamic> params) =>
+        CarritoPage(),
+  );
   static fluro.Handler _homehandler = fluro.Handler(
     handlerFunc: (BuildContext context, Map<String, dynamic> params) =>
         HomePage(),
@@ -30,10 +40,6 @@ class FluroRouter {
       familia: params['familia'][0],
     ),
   );
-  static fluro.Handler _carritohandler = fluro.Handler(
-    handlerFunc: (BuildContext context, Map<String, dynamic> parameters) =>
-        CarritoPage(),
-  );
   static fluro.Handler _pagohandler = fluro.Handler(
     handlerFunc: (BuildContext context, Map<String, dynamic> parameter) =>
         PagoPage(),
@@ -41,12 +47,6 @@ class FluroRouter {
   static fluro.Handler _indentificarsehandler = fluro.Handler(
     handlerFunc: (BuildContext context, Map<String, dynamic> parameter) =>
         IdentificarsePage(),
-  );
-  static fluro.Handler _direccioneshndler = fluro.Handler(
-    handlerFunc: (BuildContext context, Map<String, dynamic> parameter) =>
-        DireccionesPage(
-      tipo: parameter['tipo'][0],
-    ),
   );
 
   static void setupRouter() {

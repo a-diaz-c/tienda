@@ -359,7 +359,7 @@ class _PagoPageState extends State<PagoPage>
       children: [
         _cardEnvio(ancho),
         Column(
-          children: [_botonEditar('/direcciones/1', _envioDomicilio)],
+          children: [_botonEditar('direcciones/1', _envioDomicilio)],
         )
       ],
     );
@@ -368,7 +368,7 @@ class _PagoPageState extends State<PagoPage>
   List<Widget> _direccionEnvioMovil(double ancho) {
     return [
       _cardEnvio(ancho),
-      _botonEditar('/direcciones/1', _envioDomicilio),
+      _botonEditar('direcciones/1', _envioDomicilio),
     ];
   }
 
@@ -378,7 +378,7 @@ class _PagoPageState extends State<PagoPage>
       children: [
         _cardDatosEntrega(ancho),
         Column(
-          children: [_botonEditar('/direcciones/3', _recogerTienda)],
+          children: [_botonEditar('direcciones/3', _recogerTienda)],
         )
       ],
     );
@@ -387,7 +387,7 @@ class _PagoPageState extends State<PagoPage>
   List<Widget> _datosRecogerTiendaMovil(double ancho) {
     return [
       _cardDatosEntrega(ancho),
-      _botonEditar('/direcciones/3', _recogerTienda),
+      _botonEditar('direcciones/3', _recogerTienda),
     ];
   }
 
@@ -445,7 +445,7 @@ class _PagoPageState extends State<PagoPage>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _cardFactura(ancho),
-        _botonEditar('/direcciones/2', _factura),
+        _botonEditar('direcciones/2', _factura),
       ],
     );
   }
@@ -453,7 +453,7 @@ class _PagoPageState extends State<PagoPage>
   List<Widget> _direccionFacturaMovil(double ancho) {
     return [
       _cardFactura(ancho),
-      _botonEditar('/direcciones/2', _factura),
+      _botonEditar('direcciones/2', _factura),
     ];
   }
 
