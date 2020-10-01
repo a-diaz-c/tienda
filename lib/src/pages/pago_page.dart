@@ -93,28 +93,7 @@ class _PagoPageState extends State<PagoPage>
               _cuerpoWeb()
             else ...[_cuerpoMovil(), _tablaProductos()],
             _cardFactura(MediaQuery.of(context).size.width * 0.40),
-            Row(
-              children: [
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: RaisedButton(
-                    child: Text(
-                      "Siguiente Paso",
-                      style: TextStyle(),
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
-                    color: Colors.blue,
-                    onPressed: () {
-                      if (_tabController.index < _tabController.length - 1) {
-                        _tabController.animateTo(_tabController.index + 1);
-                      }
-                    },
-                  ),
-                ),
-              ],
-            ),
+            _botonContinuar(),
             footer(),
           ],
         ),
@@ -128,86 +107,89 @@ class _PagoPageState extends State<PagoPage>
       children: [
         //_tabs(MediaQuery.of(context).size.width * 0.65),
         Card(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Checkbox(
-                    value: _envioDomicilio,
-                    onChanged: (bool value) {
-                      setState(() {
-                        _envioDomicilio = value;
-                        _recogerTienda = false;
-                      });
-                    },
-                  ),
-                  Text('Enviar'),
-                  SizedBox(width: 10.0),
-                  Checkbox(
-                    value: _recogerTienda,
-                    onChanged: (bool value) {
-                      setState(() {
-                        _recogerTienda = value;
-                        _envioDomicilio = false;
-                      });
-                    },
-                  ),
-                  Text('Recoger en tienda'),
-                ],
-              ),
-              _recogerTienda
-                  ? _cardRecogerTienda(MediaQuery.of(context).size.width * 0.40)
-                  : _cardEnvioDomicilio(
-                      MediaQuery.of(context).size.width * 0.40),
-            ],
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Checkbox(
+                      value: _envioDomicilio,
+                      onChanged: (bool value) {
+                        setState(() {
+                          _envioDomicilio = value;
+                          _recogerTienda = false;
+                        });
+                      },
+                    ),
+                    Text('Enviar'),
+                    SizedBox(width: 10.0),
+                    Checkbox(
+                      value: _recogerTienda,
+                      onChanged: (bool value) {
+                        setState(() {
+                          _recogerTienda = value;
+                          _envioDomicilio = false;
+                        });
+                      },
+                    ),
+                    Text('Recoger en tienda'),
+                  ],
+                ),
+                _recogerTienda ? _cardRecogerTienda() : _cardEnvioDomicilio(),
+              ],
+            ),
           ),
         ),
         Card(
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Checkbox(
-                    value: _paypal,
-                    onChanged: (bool value) {
-                      setState(() {
-                        _paypal = value;
-                        _tarjeta = false;
-                        _efectivo = false;
-                      });
-                    },
-                  ),
-                  Text('Paypa'),
-                  SizedBox(width: 10.0),
-                  Checkbox(
-                    value: _tarjeta,
-                    onChanged: (bool value) {
-                      setState(() {
-                        _tarjeta = value;
-                        _paypal = false;
-                        _efectivo = false;
-                      });
-                    },
-                  ),
-                  Text('Tarjeta de credito/dibito'),
-                  SizedBox(width: 10.0),
-                  Checkbox(
-                    value: _efectivo,
-                    onChanged: (bool value) {
-                      setState(() {
-                        _efectivo = value;
-                        _paypal = false;
-                        _tarjeta = false;
-                      });
-                    },
-                  ),
-                  Text('Efectivo'),
-                ],
-              ),
-              _mostrarMetodoPago(),
-            ],
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Checkbox(
+                      value: _paypal,
+                      onChanged: (bool value) {
+                        setState(() {
+                          _paypal = value;
+                          _tarjeta = false;
+                          _efectivo = false;
+                        });
+                      },
+                    ),
+                    Text('Paypa'),
+                    SizedBox(width: 10.0),
+                    Checkbox(
+                      value: _tarjeta,
+                      onChanged: (bool value) {
+                        setState(() {
+                          _tarjeta = value;
+                          _paypal = false;
+                          _efectivo = false;
+                        });
+                      },
+                    ),
+                    Text('Tarjeta de credito/dibito'),
+                    SizedBox(width: 10.0),
+                    Checkbox(
+                      value: _efectivo,
+                      onChanged: (bool value) {
+                        setState(() {
+                          _efectivo = value;
+                          _paypal = false;
+                          _tarjeta = false;
+                        });
+                      },
+                    ),
+                    Text('Efectivo'),
+                  ],
+                ),
+                _mostrarMetodoPago(),
+              ],
+            ),
           ),
         ),
         _tablaProductos(),
@@ -343,7 +325,7 @@ class _PagoPageState extends State<PagoPage>
             ),
           ),
         ),
-        _recogerTienda ? _cardRecogerTienda(ancho) : _cardEnvioDomicilio(ancho),
+        _recogerTienda ? _cardRecogerTienda() : _cardEnvioDomicilio(),
         Container(
           height: 100,
           child: Card(
@@ -391,8 +373,9 @@ class _PagoPageState extends State<PagoPage>
     );
   }
 
-  Widget _cardEnvioDomicilio(ancho) {
-    return Card(
+  Widget _cardEnvioDomicilio() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -421,8 +404,9 @@ class _PagoPageState extends State<PagoPage>
     );
   }
 
-  Widget _cardRecogerTienda(ancho) {
-    return Card(
+  Widget _cardRecogerTienda() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -452,49 +436,46 @@ class _PagoPageState extends State<PagoPage>
 
   Widget _mostrarMetodoPago() {
     if (_paypal) {
-      return Container(
-        child: Card(
-          child: Column(
-            children: [
-              Text('Paypal'),
-              Text('email'),
-              InkWell(
-                child: Text(
-                  'Cambiar',
-                  style: TextStyle(color: Colors.blue),
-                ),
-                onTap: () {},
-              )
-            ],
-          ),
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Text('Paypal'),
+            Text('email'),
+            InkWell(
+              child: Text(
+                'Cambiar',
+                style: TextStyle(color: Colors.blue),
+              ),
+              onTap: () {},
+            )
+          ],
         ),
       );
     } else if (_tarjeta) {
-      return Container(
-        child: Card(
-          child: Column(
-            children: [
-              Text('Tarjeta'),
-              Text('Nombre'),
-              InkWell(
-                child: Text(
-                  'Cambiar',
-                  style: TextStyle(color: Colors.blue),
-                ),
-                onTap: () {},
-              )
-            ],
-          ),
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Text('Tarjeta'),
+            Text('Nombre'),
+            InkWell(
+              child: Text(
+                'Cambiar',
+                style: TextStyle(color: Colors.blue),
+              ),
+              onTap: () {},
+            )
+          ],
         ),
       );
     } else {
-      return Container(
-        child: Card(
-          child: Column(
-            children: [
-              Text('Pago al recibir el pedido'),
-            ],
-          ),
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Text('Pago al recibir el pedido'),
+          ],
         ),
       );
     }
@@ -527,128 +508,87 @@ class _PagoPageState extends State<PagoPage>
               children: [
                 Container(
                   width: 500,
-                  child: Card(
-                    child: Row(
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: _factura,
+                        onChanged: (bool value) {
+                          setState(() {
+                            _factura = value;
+                          });
+                        },
+                      ),
+                      Text('Factura'),
+                    ],
+                  ),
+                ),
+                Opacity(
+                  opacity: _factura ? 1 : 0.3,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.30,
+                    padding: EdgeInsets.all(10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Checkbox(
-                          value: _factura,
-                          onChanged: (bool value) {
-                            setState(() {
-                              _factura = value;
-                            });
-                          },
+                        Text(
+                          'Razon social o nombre',
+                          style: TextStyle(color: Colors.grey[700]),
                         ),
-                        Text('Factura'),
+                        Text(factura['nombre']),
+                        SizedBox(height: 5),
+                        Text(
+                          'RFC',
+                          style: TextStyle(color: Colors.grey[700]),
+                        ),
+                        Text(factura['rfc']),
+                        SizedBox(height: 5),
+                        Text(
+                          'Uso de CFDI',
+                          style: TextStyle(color: Colors.grey[700]),
+                        ),
+                        Text(factura['usoDeCEDI']),
+                        InkWell(
+                          child: Text(
+                            'Cambiar',
+                            style: TextStyle(color: Colors.blue),
+                          ),
+                          onTap: () {},
+                        )
                       ],
                     ),
                   ),
                 ),
-                Card(
-                  child: Opacity(
-                    opacity: _factura ? 1 : 0.3,
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 0.40,
-                      child: Card(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Razon social o nombre',
-                              style: TextStyle(color: Colors.grey[700]),
-                            ),
-                            Text(factura['nombre']),
-                            SizedBox(height: 5),
-                            Text(
-                              'RFC',
-                              style: TextStyle(color: Colors.grey[700]),
-                            ),
-                            Text(factura['rfc']),
-                            SizedBox(height: 5),
-                            Text(
-                              'Uso de CFDI',
-                              style: TextStyle(color: Colors.grey[700]),
-                            ),
-                            Text(factura['usoDeCEDI']),
-                            InkWell(
-                              child: Text(
-                                'Cambiar',
-                                style: TextStyle(color: Colors.blue),
-                              ),
-                              onTap: () {},
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                )
               ],
             ),
           ),
         ),
       ],
     );
-    /* return Container(
-      child: Card(
-        child: Column(
-          children: [
-            Container(
-              child: Card(
-                child: Row(
-                  children: [
-                    Checkbox(
-                      value: _factura,
-                      onChanged: (bool value) {
-                        setState(() {
-                          _factura = value;
-                        });
-                      },
-                    ),
-                    Expanded(child: Text('Factura')),
-                  ],
-                ),
-              ),
+  }
+
+  Widget _botonContinuar() {
+    return Row(
+      children: [
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          child: RaisedButton(
+            child: Text(
+              "Continuar",
+              style: TextStyle(),
             ),
-            Card(
-              child: Opacity(
-                opacity: _factura ? 1 : 0.3,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.40,
-                      child: Card(
-                        child: Column(
-                          children: [
-                            Text(
-                              'Razon social o nombre',
-                              style: TextStyle(color: Colors.grey[700]),
-                            ),
-                            Text(factura['nombre']),
-                            SizedBox(height: 5),
-                            Text(
-                              'RFC',
-                              style: TextStyle(color: Colors.grey[700]),
-                            ),
-                            Text(factura['rfc']),
-                            SizedBox(height: 5),
-                            Text(
-                              'Uso de CFDI',
-                              style: TextStyle(color: Colors.grey[700]),
-                            ),
-                            Text(factura['usoDeCEDI'])
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            )
-          ],
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),
+            ),
+            color: Colors.blue,
+            onPressed: () {
+              if (_tabController.index < _tabController.length - 1) {
+                _tabController.animateTo(_tabController.index + 1);
+              }
+            },
+          ),
         ),
-      ),
-    ); */
+      ],
+    );
   }
 
   Widget _botonEditar(String ruta, bool activo) {
