@@ -28,6 +28,13 @@ class _PagoPageState extends State<PagoPage>
   bool _factura = false;
   List datos = [];
 
+  final paddingInput = EdgeInsetsDirectional.only(
+    top: 5.0,
+    bottom: 0.0,
+    start: 5.0,
+    end: 5.0,
+  );
+
   Map<String, dynamic> envio = {
     'nombre': 'Hector',
     'apellidos': 'Nunez',
@@ -58,6 +65,16 @@ class _PagoPageState extends State<PagoPage>
     'usoDeCEDI': 'G03 - Gastos en general',
   };
 
+  Map<String, dynamic> datosTarjeta = {
+    'nombre': 'Hector',
+    'numero': '5899 55224 4448 8881',
+    'cp': '33453',
+    'direccion': ' Gastos en general',
+    'cvv': '123',
+  };
+
+  String emailPaypal = "";
+
   @override
   void initState() {
     super.initState();
@@ -70,6 +87,10 @@ class _PagoPageState extends State<PagoPage>
     if (_tabController.indexIsChanging) {
       setState(() {});
     }
+  }
+
+  _actulizarDatos() {
+    setState(() {});
   }
 
   _cargarCarrito() {
@@ -90,9 +111,9 @@ class _PagoPageState extends State<PagoPage>
           children: [
             Navbar(),
             if (MediaQuery.of(context).size.width > 900)
-              _cuerpoWeb()
-            else ...[_cuerpoMovil(), _tablaProductos()],
-            _cardFactura(MediaQuery.of(context).size.width * 0.40),
+              ..._cuerpoWeb()
+            else
+              ..._cuerpoMovil(),
             _botonContinuar(),
             footer(),
           ],
@@ -101,154 +122,250 @@ class _PagoPageState extends State<PagoPage>
     );
   }
 
-  Widget _cuerpoWeb() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        //_tabs(MediaQuery.of(context).size.width * 0.65),
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Checkbox(
-                      value: _envioDomicilio,
-                      onChanged: (bool value) {
-                        setState(() {
-                          _envioDomicilio = value;
-                          _recogerTienda = false;
-                        });
-                      },
-                    ),
-                    Text('Enviar'),
-                    SizedBox(width: 10.0),
-                    Checkbox(
-                      value: _recogerTienda,
-                      onChanged: (bool value) {
-                        setState(() {
-                          _recogerTienda = value;
-                          _envioDomicilio = false;
-                        });
-                      },
-                    ),
-                    Text('Recoger en tienda'),
-                  ],
-                ),
-                _recogerTienda ? _cardRecogerTienda() : _cardEnvioDomicilio(),
-              ],
-            ),
+  List<Widget> _cuerpoWeb() {
+    return [
+      Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _cardEntregaWeb(),
+            _cardPagoWeb(),
+            _tablaProductos(),
+          ],
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _cardFactura(MediaQuery.of(context).size.width * 0.30),
+          ],
+        ),
+      ),
+    ];
+  }
+
+  List<Widget> _cuerpoMovil() {
+    return [
+      _cardEntrega(),
+      _cardPago(),
+      _cardFactura(MediaQuery.of(context).size.width),
+      _tablaProductos(),
+    ];
+  }
+
+  Widget _cardEntregaWeb() {
+    return Container(
+      height: 400,
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Checkbox(
+                    value: _envioDomicilio,
+                    onChanged: (bool value) {
+                      setState(() {
+                        _envioDomicilio = value;
+                        _recogerTienda = false;
+                      });
+                    },
+                  ),
+                  Text('Enviar'),
+                  SizedBox(width: 10.0),
+                  Checkbox(
+                    value: _recogerTienda,
+                    onChanged: (bool value) {
+                      setState(() {
+                        _recogerTienda = value;
+                        _envioDomicilio = false;
+                      });
+                    },
+                  ),
+                  Text('Recoger en tienda'),
+                ],
+              ),
+              _recogerTienda ? _datosRecogerTienda() : _datosEnvioDomicilio(),
+            ],
           ),
         ),
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Checkbox(
-                      value: _paypal,
-                      onChanged: (bool value) {
-                        setState(() {
-                          _paypal = value;
-                          _tarjeta = false;
-                          _efectivo = false;
-                        });
-                      },
-                    ),
-                    Text('Paypa'),
-                    SizedBox(width: 10.0),
-                    Checkbox(
-                      value: _tarjeta,
-                      onChanged: (bool value) {
-                        setState(() {
-                          _tarjeta = value;
-                          _paypal = false;
-                          _efectivo = false;
-                        });
-                      },
-                    ),
-                    Text('Tarjeta de credito/dibito'),
-                    SizedBox(width: 10.0),
-                    Checkbox(
-                      value: _efectivo,
-                      onChanged: (bool value) {
-                        setState(() {
-                          _efectivo = value;
-                          _paypal = false;
-                          _tarjeta = false;
-                        });
-                      },
-                    ),
-                    Text('Efectivo'),
-                  ],
-                ),
-                _mostrarMetodoPago(),
-              ],
-            ),
-          ),
-        ),
-        _tablaProductos(),
-      ],
+      ),
     );
   }
 
-  Widget _cuerpoMovil() {
-    return _tabs(MediaQuery.of(context).size.width * 0.95);
-  }
-
-  Widget _tabs(double ancho) {
-    return Center(
-      child: Container(
-        width: ancho,
-        padding: EdgeInsets.only(bottom: 20.0),
+  Widget _cardEntrega() {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              color: Colors.white,
-              height: 40.0,
-              child: TabBar(
-                tabs: [
-                  Tab(
-                    child: Container(
-                      height: 25,
-                      child: Text(
-                        "Elegir Dirección",
-                        style: TextStyle(color: Colors.blue),
-                      ),
-                    ),
-                  ),
-                  Tab(
-                    child: Container(
-                      height: 25,
-                      child: Text(
-                        "Envio y Pago",
-                        style: TextStyle(color: Colors.blue),
-                      ),
-                    ),
-                  ),
-                ],
-                controller: _tabController,
-                indicatorColor: Colors.blue,
-                indicatorSize: TabBarIndicatorSize.tab,
-              ),
+            Row(
+              children: [
+                Checkbox(
+                  value: _envioDomicilio,
+                  onChanged: (bool value) {
+                    setState(() {
+                      _envioDomicilio = value;
+                      _recogerTienda = false;
+                    });
+                  },
+                ),
+                Text('Enviar'),
+                SizedBox(width: 10.0),
+                Checkbox(
+                  value: _recogerTienda,
+                  onChanged: (bool value) {
+                    setState(() {
+                      _recogerTienda = value;
+                      _envioDomicilio = false;
+                    });
+                  },
+                ),
+                Text('Recoger en tienda'),
+              ],
             ),
-            Center(
-              child: [
-                _direcciones(MediaQuery.of(context).size.width > 900
-                    ? ancho * 0.70
-                    : ancho),
-                _envioPago(ancho)
-              ][_tabController.index],
-            ),
+            _recogerTienda ? _datosRecogerTienda() : _datosEnvioDomicilio(),
           ],
         ),
       ),
     );
+  }
+
+  Widget _cardPagoWeb() {
+    return Container(
+      height: 400,
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            children: [
+              if (MediaQuery.of(context).size.width > 900)
+                _pagoWeb()
+              else
+                ..._pagoMovil(),
+              _mostrarMetodoPago(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _cardPago() {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          children: [
+            if (MediaQuery.of(context).size.width > 900)
+              _pagoWeb()
+            else
+              ..._pagoMovil(),
+            _mostrarMetodoPago(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _pagoWeb() {
+    return Row(
+      children: [
+        Checkbox(
+          value: _paypal,
+          onChanged: (bool value) {
+            setState(() {
+              _paypal = value;
+              _tarjeta = false;
+              _efectivo = false;
+            });
+          },
+        ),
+        Text('Paypa'),
+        SizedBox(width: 10.0),
+        Checkbox(
+          value: _tarjeta,
+          onChanged: (bool value) {
+            setState(() {
+              _tarjeta = value;
+              _paypal = false;
+              _efectivo = false;
+            });
+          },
+        ),
+        Text('Tarjeta de credito/debito'),
+        SizedBox(width: 10.0),
+        Checkbox(
+          value: _efectivo,
+          onChanged: (bool value) {
+            setState(() {
+              _efectivo = value;
+              _paypal = false;
+              _tarjeta = false;
+            });
+          },
+        ),
+        Text('Efectivo'),
+      ],
+    );
+  }
+
+  List<Widget> _pagoMovil() {
+    return [
+      Row(
+        children: [
+          Checkbox(
+            value: _paypal,
+            onChanged: (bool value) {
+              setState(() {
+                _paypal = value;
+                _tarjeta = false;
+                _efectivo = false;
+              });
+            },
+          ),
+          Text('Paypa'),
+        ],
+      ),
+      Row(
+        children: [
+          Checkbox(
+            value: _tarjeta,
+            onChanged: (bool value) {
+              setState(() {
+                _tarjeta = value;
+                _paypal = false;
+                _efectivo = false;
+              });
+            },
+          ),
+          Text('Tarjeta de credito/debito'),
+        ],
+      ),
+      Row(
+        children: [
+          Checkbox(
+            value: _efectivo,
+            onChanged: (bool value) {
+              setState(() {
+                _efectivo = value;
+                _paypal = false;
+                _tarjeta = false;
+              });
+            },
+          ),
+          Text('Efectivo'),
+        ],
+      ),
+    ];
   }
 
   Widget _tablaProductos() {
@@ -292,88 +409,7 @@ class _PagoPageState extends State<PagoPage>
     );
   }
 
-  Widget _direcciones(double ancho) {
-    return Column(
-      children: [
-        Container(
-          height: 100,
-          child: Card(
-            child: Row(
-              children: [
-                Checkbox(
-                  value: _envioDomicilio,
-                  onChanged: (bool value) {
-                    setState(() {
-                      _envioDomicilio = value;
-                      _recogerTienda = false;
-                    });
-                  },
-                ),
-                Expanded(child: Text('Enviar')),
-                SizedBox(width: 10.0),
-                Checkbox(
-                  value: _recogerTienda,
-                  onChanged: (bool value) {
-                    setState(() {
-                      _recogerTienda = value;
-                      _envioDomicilio = false;
-                    });
-                  },
-                ),
-                Expanded(child: Text('Recoger en tienda')),
-              ],
-            ),
-          ),
-        ),
-        _recogerTienda ? _cardRecogerTienda() : _cardEnvioDomicilio(),
-        Container(
-          height: 100,
-          child: Card(
-            child: Row(
-              children: [
-                Checkbox(
-                  value: _factura,
-                  onChanged: (bool value) {
-                    setState(() {
-                      _factura = value;
-                    });
-                  },
-                ),
-                Expanded(child: Text('Factura')),
-              ],
-            ),
-          ),
-        ),
-        Card(
-          child: Opacity(
-            opacity: _factura ? 1 : 0.3,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-                  child: Text(
-                    'Direccion de facturacion',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                  child: Text('Verifique sus de facturacion'),
-                ),
-                if (MediaQuery.of(context).size.width > 900)
-                  _direccionFacturaWeb(ancho)
-                else
-                  ..._direccionFacturaMovil(ancho),
-              ],
-            ),
-          ),
-        )
-      ],
-    );
-  }
-
-  Widget _cardEnvioDomicilio() {
+  Widget _datosEnvioDomicilio() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
@@ -397,14 +433,16 @@ class _PagoPageState extends State<PagoPage>
               'Cambiar',
               style: TextStyle(color: Colors.blue),
             ),
-            onTap: () {},
+            onTap: () {
+              _formularioDireccionEnvio();
+            },
           )
         ],
       ),
     );
   }
 
-  Widget _cardRecogerTienda() {
+  Widget _datosRecogerTienda() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
@@ -427,7 +465,9 @@ class _PagoPageState extends State<PagoPage>
               'Cambiar',
               style: TextStyle(color: Colors.blue),
             ),
-            onTap: () {},
+            onTap: () {
+              _formularioRecogerTienda();
+            },
           )
         ],
       ),
@@ -440,14 +480,33 @@ class _PagoPageState extends State<PagoPage>
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Text('Paypal'),
-            Text('email'),
+            Text('Paypal', style: TextStyle(fontSize: 20)),
+            Padding(
+              padding: const EdgeInsets.only(left: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Image(
+                    image: AssetImage('images/paypal.png'),
+                    height: 50,
+                    width: 100,
+                  ),
+                  if (MediaQuery.of(context).size.width > 900)
+                    Image(
+                      image: AssetImage('images/paypal_tarjetas.png'),
+                      height: 80,
+                      width: 200,
+                    ),
+                ],
+              ),
+            ),
+            Text(emailPaypal),
             InkWell(
               child: Text(
                 'Cambiar',
                 style: TextStyle(color: Colors.blue),
               ),
-              onTap: () {},
+              onTap: () => _formularioPaypal(),
             )
           ],
         ),
@@ -457,14 +516,27 @@ class _PagoPageState extends State<PagoPage>
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Text('Tarjeta'),
-            Text('Nombre'),
+            Text('Tarjeta', style: TextStyle(fontSize: 20)),
+            Padding(
+              padding: const EdgeInsets.only(left: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Image(
+                    image: AssetImage('images/tarjetas.png'),
+                    height: 80,
+                    width: 200,
+                  ),
+                ],
+              ),
+            ),
+            Text(datosTarjeta['nombre']),
             InkWell(
               child: Text(
                 'Cambiar',
                 style: TextStyle(color: Colors.blue),
               ),
-              onTap: () {},
+              onTap: () => _formularioTarjeta(),
             )
           ],
         ),
@@ -474,27 +546,11 @@ class _PagoPageState extends State<PagoPage>
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Text('Pago al recibir el pedido'),
+            Text('Pago al recibir el pedido', style: TextStyle(fontSize: 20)),
           ],
         ),
       );
     }
-  }
-
-  Widget _direccionFacturaWeb(double ancho) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _cardFactura(ancho),
-      ],
-    );
-  }
-
-  List<Widget> _direccionFacturaMovil(double ancho) {
-    return [
-      _cardFactura(ancho),
-      _botonEditar('direcciones/2', _factura),
-    ];
   }
 
   Widget _cardFactura(double ancho) {
@@ -502,30 +558,27 @@ class _PagoPageState extends State<PagoPage>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
+          width: ancho,
           child: Card(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  width: 500,
-                  child: Row(
-                    children: [
-                      Checkbox(
-                        value: _factura,
-                        onChanged: (bool value) {
-                          setState(() {
-                            _factura = value;
-                          });
-                        },
-                      ),
-                      Text('Factura'),
-                    ],
-                  ),
+                Row(
+                  children: [
+                    Checkbox(
+                      value: _factura,
+                      onChanged: (bool value) {
+                        setState(() {
+                          _factura = value;
+                        });
+                      },
+                    ),
+                    Text('Factura'),
+                  ],
                 ),
                 Opacity(
                   opacity: _factura ? 1 : 0.3,
                   child: Container(
-                    width: MediaQuery.of(context).size.width * 0.30,
                     padding: EdgeInsets.all(10.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -540,6 +593,16 @@ class _PagoPageState extends State<PagoPage>
                           'RFC',
                           style: TextStyle(color: Colors.grey[700]),
                         ),
+                        Text(
+                          'Email',
+                          style: TextStyle(color: Colors.grey[700]),
+                        ),
+                        Text(factura['email']),
+                        SizedBox(height: 5),
+                        Text(
+                          'Uso de CFDI',
+                          style: TextStyle(color: Colors.grey[700]),
+                        ),
                         Text(factura['rfc']),
                         SizedBox(height: 5),
                         Text(
@@ -552,7 +615,9 @@ class _PagoPageState extends State<PagoPage>
                             'Cambiar',
                             style: TextStyle(color: Colors.blue),
                           ),
-                          onTap: () {},
+                          onTap: () {
+                            if (_factura) _formularioFactura();
+                          },
                         )
                       ],
                     ),
@@ -567,43 +632,29 @@ class _PagoPageState extends State<PagoPage>
   }
 
   Widget _botonContinuar() {
-    return Row(
-      children: [
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          child: RaisedButton(
-            child: Text(
-              "Continuar",
-              style: TextStyle(),
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Row(
+        children: [
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: RaisedButton(
+              child: Text(
+                "Continuar",
+                style: TextStyle(),
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.0),
+              ),
+              color: Colors.blue,
+              onPressed: () {
+                if (_tabController.index < _tabController.length - 1) {
+                  _tabController.animateTo(_tabController.index + 1);
+                }
+              },
             ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15.0),
-            ),
-            color: Colors.blue,
-            onPressed: () {
-              if (_tabController.index < _tabController.length - 1) {
-                _tabController.animateTo(_tabController.index + 1);
-              }
-            },
           ),
-        ),
-      ],
-    );
-  }
-
-  Widget _botonEditar(String ruta, bool activo) {
-    return Container(
-      width: 160,
-      child: RaisedButton(
-        child: Row(
-          children: [
-            Icon(Icons.edit),
-            Text('Editar Direccion'),
-          ],
-        ),
-        onPressed: () {
-          if (activo) Navigator.pushNamed(context, ruta);
-        },
+        ],
       ),
     );
   }
@@ -627,11 +678,886 @@ class _PagoPageState extends State<PagoPage>
     return lista;
   }
 
-  Widget _envioPago(double ancho) {
-    return Column(
-      children: [
-        _opcionesPago(ancho),
-      ],
+  _formularioDireccionEnvio() {
+    final _keylogin = GlobalKey<FormState>();
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                child: Text(
+                  "Direccion de envio",
+                  style: TextStyle(
+                      color: Color(0xFFd11507), fontWeight: FontWeight.normal),
+                ),
+              ),
+              SizedBox(width: 20.0),
+            ],
+          ),
+          content: SingleChildScrollView(
+            child: Form(
+              key: _keylogin,
+              child: Column(
+                children: [
+                  Container(
+                    height: 40,
+                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    child: TextFormField(
+                      initialValue: envio['nombre'],
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        labelText: 'Nombre destinatario',
+                        contentPadding: paddingInput,
+                        errorStyle: TextStyle(height: 0),
+                      ),
+                      onChanged: (value) {
+                        envio['nombre'] = value;
+                      },
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Nombre';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Container(
+                    height: 40,
+                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    child: TextFormField(
+                      initialValue: envio['apellidos'],
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        labelText: 'Apellido destinatario',
+                        contentPadding: paddingInput,
+                        errorStyle: TextStyle(height: 0),
+                      ),
+                      onChanged: (value) {
+                        envio['apellidos'] = value;
+                      },
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Nombre';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Container(
+                    height: 40,
+                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    child: TextFormField(
+                      initialValue: envio['empresa'],
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        labelText: 'Empresa destino',
+                        contentPadding: paddingInput,
+                        errorStyle: TextStyle(height: 0),
+                      ),
+                      onChanged: (value) {
+                        envio['empresa'] = value;
+                      },
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Empresa';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Container(
+                    height: 40,
+                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    child: TextFormField(
+                      initialValue: envio['telefono'],
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        labelText: 'Telefono',
+                        contentPadding: paddingInput,
+                        errorStyle: TextStyle(height: 0),
+                      ),
+                      onChanged: (value) {
+                        envio['telefono'] = value;
+                      },
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Nombre';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Container(
+                    height: 40,
+                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    child: TextFormField(
+                      initialValue: envio['calle'],
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        labelText: 'Calle',
+                        contentPadding: paddingInput,
+                        errorStyle: TextStyle(height: 0),
+                      ),
+                      onChanged: (value) {
+                        envio['calle'] = value;
+                      },
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Calle';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Container(
+                    height: 40,
+                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    child: TextFormField(
+                      initialValue: envio['numExt'],
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        labelText: 'Numero Ext',
+                        contentPadding: paddingInput,
+                        errorStyle: TextStyle(height: 0),
+                      ),
+                      onChanged: (value) {
+                        envio['numExt'] = value;
+                      },
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Numero Ext';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Container(
+                    height: 40,
+                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    child: TextFormField(
+                      initialValue: envio['numInt'],
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        labelText: 'Numero Int',
+                        contentPadding: paddingInput,
+                        errorStyle: TextStyle(height: 0),
+                      ),
+                      onChanged: (value) {
+                        envio['numInt'] = value;
+                      },
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Numero Int';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Container(
+                    height: 40,
+                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    child: TextFormField(
+                      initialValue: envio['referencia'],
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        labelText: 'Referencia',
+                        contentPadding: paddingInput,
+                        errorStyle: TextStyle(height: 0),
+                      ),
+                      onChanged: (value) {
+                        envio['referencia'] = value;
+                      },
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Numero Ext';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Container(
+                    height: 40,
+                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    child: TextFormField(
+                      initialValue: envio['colonia'],
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        labelText: 'Colonia',
+                        contentPadding: paddingInput,
+                        errorStyle: TextStyle(height: 0),
+                      ),
+                      onChanged: (value) {
+                        envio['colonia'] = value;
+                      },
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Numero Ext';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Container(
+                    height: 40,
+                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    child: TextFormField(
+                      initialValue: envio['codigoPostal'],
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        labelText: 'Código Postal',
+                        contentPadding: paddingInput,
+                        errorStyle: TextStyle(height: 0),
+                      ),
+                      onChanged: (value) {
+                        envio['codigoPostal'] = value;
+                      },
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Numero Ext';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Container(
+                    height: 40,
+                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    child: TextFormField(
+                      initialValue: envio['ciudad'],
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        labelText: 'Cuidad',
+                        contentPadding: paddingInput,
+                        errorStyle: TextStyle(height: 0),
+                      ),
+                      onChanged: (value) {
+                        envio['ciudad'] = value;
+                      },
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Numero Ext';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Container(
+                    height: 40,
+                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    child: TextFormField(
+                      initialValue: envio['estado'],
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        labelText: 'Estado',
+                        contentPadding: paddingInput,
+                        errorStyle: TextStyle(height: 0),
+                      ),
+                      onChanged: (value) {
+                        envio['estado'] = value;
+                      },
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Numero Ext';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Container(
+                    height: 40,
+                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    child: TextFormField(
+                      initialValue: envio['pais'],
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        labelText: 'País',
+                        contentPadding: paddingInput,
+                        errorStyle: TextStyle(height: 0),
+                      ),
+                      onChanged: (value) {
+                        envio['calle'] = value;
+                      },
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Numero Ext';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: RaisedButton(
+                      child: Text(
+                        "Guardar",
+                        style: TextStyle(),
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      color: Colors.amber,
+                      onPressed: () {
+                        if (_keylogin.currentState.validate()) {
+                          _actulizarDatos();
+                          Navigator.of(context).pop();
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  _formularioRecogerTienda() {
+    final _keylogin = GlobalKey<FormState>();
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                child: Text(
+                  "Entrega en tienda",
+                  style: TextStyle(
+                      color: Color(0xFFd11507), fontWeight: FontWeight.normal),
+                ),
+              ),
+              SizedBox(width: 20.0),
+            ],
+          ),
+          content: SingleChildScrollView(
+            child: Form(
+              key: _keylogin,
+              child: Column(
+                children: [
+                  Container(
+                    height: 40,
+                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    child: TextFormField(
+                      initialValue: datosRecoger['nombre'],
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        labelText: 'Nombre',
+                        contentPadding: paddingInput,
+                        errorStyle: TextStyle(height: 0),
+                      ),
+                      onChanged: (value) {
+                        datosRecoger['nombre'] = value;
+                      },
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Nombre';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Container(
+                    height: 40,
+                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    child: TextFormField(
+                      initialValue: datosRecoger['apellidos'],
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        labelText: 'Apellidos',
+                        contentPadding: paddingInput,
+                        errorStyle: TextStyle(height: 0),
+                      ),
+                      onChanged: (value) {
+                        datosRecoger['apellidos'] = value;
+                      },
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Nombre';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Container(
+                    height: 40,
+                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    child: TextFormField(
+                      initialValue: datosRecoger['telefono'],
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        labelText: 'Telefono',
+                        contentPadding: paddingInput,
+                        errorStyle: TextStyle(height: 0),
+                      ),
+                      onChanged: (value) {
+                        datosRecoger['telefono'] = value;
+                      },
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Nombre';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: RaisedButton(
+                      child: Text(
+                        "Guardar",
+                        style: TextStyle(),
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      color: Colors.amber,
+                      onPressed: () {
+                        if (_keylogin.currentState.validate()) {
+                          _actulizarDatos();
+                          Navigator.of(context).pop();
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  _formularioPaypal() {
+    final _keylogin = GlobalKey<FormState>();
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                child: Text(
+                  "Email de Paypal",
+                  style: TextStyle(
+                      color: Color(0xFFd11507), fontWeight: FontWeight.normal),
+                ),
+              ),
+              SizedBox(width: 20.0),
+            ],
+          ),
+          content: SingleChildScrollView(
+            child: Form(
+              key: _keylogin,
+              child: Column(
+                children: [
+                  Container(
+                    height: 40,
+                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    child: TextFormField(
+                      initialValue: emailPaypal,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        labelText: 'Email',
+                        contentPadding: paddingInput,
+                        errorStyle: TextStyle(height: 0),
+                      ),
+                      onChanged: (value) {
+                        emailPaypal = value;
+                      },
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Email no valido';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: RaisedButton(
+                      child: Text(
+                        "Guardar",
+                        style: TextStyle(),
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      color: Colors.amber,
+                      onPressed: () {
+                        if (_keylogin.currentState.validate()) {
+                          _actulizarDatos();
+                          Navigator.of(context).pop();
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  _formularioTarjeta() {
+    final _keylogin = GlobalKey<FormState>();
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                child: Text(
+                  "Datos de la tarjeta",
+                  style: TextStyle(
+                      color: Color(0xFFd11507), fontWeight: FontWeight.normal),
+                ),
+              ),
+              SizedBox(width: 20.0),
+            ],
+          ),
+          content: SingleChildScrollView(
+            child: Form(
+              key: _keylogin,
+              child: Column(
+                children: [
+                  Container(
+                    height: 40,
+                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    child: TextFormField(
+                      initialValue: datosTarjeta['nombre'],
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        labelText: 'Nombre (Como está en la tarjeta)',
+                        contentPadding: paddingInput,
+                        errorStyle: TextStyle(height: 0),
+                      ),
+                      onChanged: (value) {
+                        datosTarjeta['nombre'] = value;
+                      },
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Nombre';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Container(
+                    height: 40,
+                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    child: TextFormField(
+                      initialValue: datosTarjeta['numero'],
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        labelText: 'Numero de tarjeta',
+                        contentPadding: paddingInput,
+                        errorStyle: TextStyle(height: 0),
+                      ),
+                      onChanged: (value) {
+                        datosTarjeta['numero'] = value;
+                      },
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Numero de tarjeta';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Container(
+                    height: 40,
+                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    child: TextFormField(
+                      initialValue: datosTarjeta['cp'],
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        labelText: 'CP',
+                        contentPadding: paddingInput,
+                        errorStyle: TextStyle(height: 0),
+                      ),
+                      onChanged: (value) {
+                        datosTarjeta['CP'] = value;
+                      },
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'CP';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Container(
+                    height: 40,
+                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    child: TextFormField(
+                      initialValue: datosTarjeta['direccion'],
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        labelText: 'Direccion',
+                        contentPadding: paddingInput,
+                        errorStyle: TextStyle(height: 0),
+                      ),
+                      onChanged: (value) {
+                        datosTarjeta['direccion'] = value;
+                      },
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Direccion';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Container(
+                    height: 40,
+                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    child: TextFormField(
+                      initialValue: datosTarjeta['cvv'],
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        labelText: 'CVV',
+                        contentPadding: paddingInput,
+                        errorStyle: TextStyle(height: 0),
+                      ),
+                      onChanged: (value) {
+                        datosTarjeta['cvv'] = value;
+                      },
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'CVV';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: RaisedButton(
+                      child: Text(
+                        "Guardar",
+                        style: TextStyle(),
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      color: Colors.amber,
+                      onPressed: () {
+                        if (_keylogin.currentState.validate()) {
+                          _actulizarDatos();
+                          Navigator.of(context).pop();
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  _formularioFactura() {
+    final _keylogin = GlobalKey<FormState>();
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                child: Text(
+                  "Datos de la tarjeta",
+                  style: TextStyle(
+                      color: Color(0xFFd11507), fontWeight: FontWeight.normal),
+                ),
+              ),
+              SizedBox(width: 20.0),
+            ],
+          ),
+          content: SingleChildScrollView(
+            child: Form(
+              key: _keylogin,
+              child: Column(
+                children: [
+                  Container(
+                    height: 40,
+                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    child: TextFormField(
+                      initialValue: factura['rfc'],
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        labelText: 'Razón social o nombre',
+                        contentPadding: paddingInput,
+                        errorStyle: TextStyle(height: 0),
+                      ),
+                      onChanged: (value) {
+                        factura['nombre'] = value;
+                      },
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Nombre';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Container(
+                    height: 40,
+                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    child: TextFormField(
+                      initialValue: factura['rfc'],
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        labelText: 'RFC',
+                        contentPadding: paddingInput,
+                        errorStyle: TextStyle(height: 0),
+                      ),
+                      onChanged: (value) {
+                        factura['rfc'] = value;
+                      },
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'RFC';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Container(
+                    height: 40,
+                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    child: TextFormField(
+                      initialValue: factura['email'],
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        labelText: 'Email de facturación',
+                        contentPadding: paddingInput,
+                        errorStyle: TextStyle(height: 0),
+                      ),
+                      onChanged: (value) {
+                        factura['email'] = value;
+                      },
+                    ),
+                  ),
+                  Container(
+                    height: 40,
+                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    child: TextFormField(
+                      initialValue: factura['usoDeCEDI'],
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        labelText: 'Uso de CFDI',
+                        contentPadding: paddingInput,
+                        errorStyle: TextStyle(height: 0),
+                      ),
+                      onChanged: (value) {
+                        factura['usoDeCEDI'] = value;
+                      },
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Nombre';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: RaisedButton(
+                      child: Text(
+                        "Guardar",
+                        style: TextStyle(),
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      color: Colors.amber,
+                      onPressed: () {
+                        if (_keylogin.currentState.validate()) {
+                          _actulizarDatos();
+                          Navigator.of(context).pop();
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 
