@@ -20,7 +20,7 @@ class _PagoPageState extends State<PagoPage>
   double _costoEnvio = 0;
   double _total;
   double _ancho;
-  bool _paypal = false;
+  bool _paypal = true;
   bool _tarjeta = false;
   bool _efectivo = false;
   bool _envioDomicilio = true;
@@ -30,7 +30,7 @@ class _PagoPageState extends State<PagoPage>
 
   Map<String, dynamic> envio = {
     'nombre': 'Hector',
-    'apelliod': 'Nunez',
+    'apellidos': 'Nunez',
     'empresa': 'Kingo System',
     'sexo': 'H',
     'telefono': '7444849493',
@@ -92,6 +92,7 @@ class _PagoPageState extends State<PagoPage>
             if (MediaQuery.of(context).size.width > 900)
               _cuerpoWeb()
             else ...[_cuerpoMovil(), _tablaProductos()],
+            _cardFactura(MediaQuery.of(context).size.width * 0.40),
             Row(
               children: [
                 Container(
@@ -125,7 +126,90 @@ class _PagoPageState extends State<PagoPage>
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _tabs(MediaQuery.of(context).size.width * 0.65),
+        //_tabs(MediaQuery.of(context).size.width * 0.65),
+        Card(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Checkbox(
+                    value: _envioDomicilio,
+                    onChanged: (bool value) {
+                      setState(() {
+                        _envioDomicilio = value;
+                        _recogerTienda = false;
+                      });
+                    },
+                  ),
+                  Text('Enviar'),
+                  SizedBox(width: 10.0),
+                  Checkbox(
+                    value: _recogerTienda,
+                    onChanged: (bool value) {
+                      setState(() {
+                        _recogerTienda = value;
+                        _envioDomicilio = false;
+                      });
+                    },
+                  ),
+                  Text('Recoger en tienda'),
+                ],
+              ),
+              _recogerTienda
+                  ? _cardRecogerTienda(MediaQuery.of(context).size.width * 0.40)
+                  : _cardEnvioDomicilio(
+                      MediaQuery.of(context).size.width * 0.40),
+            ],
+          ),
+        ),
+        Card(
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Checkbox(
+                    value: _paypal,
+                    onChanged: (bool value) {
+                      setState(() {
+                        _paypal = value;
+                        _tarjeta = false;
+                        _efectivo = false;
+                      });
+                    },
+                  ),
+                  Text('Paypa'),
+                  SizedBox(width: 10.0),
+                  Checkbox(
+                    value: _tarjeta,
+                    onChanged: (bool value) {
+                      setState(() {
+                        _tarjeta = value;
+                        _paypal = false;
+                        _efectivo = false;
+                      });
+                    },
+                  ),
+                  Text('Tarjeta de credito/dibito'),
+                  SizedBox(width: 10.0),
+                  Checkbox(
+                    value: _efectivo,
+                    onChanged: (bool value) {
+                      setState(() {
+                        _efectivo = value;
+                        _paypal = false;
+                        _tarjeta = false;
+                      });
+                    },
+                  ),
+                  Text('Efectivo'),
+                ],
+              ),
+              _mostrarMetodoPago(),
+            ],
+          ),
+        ),
         _tablaProductos(),
       ],
     );
@@ -312,21 +396,26 @@ class _PagoPageState extends State<PagoPage>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+          Text(
+            'Direccion de envio',
+            style: TextStyle(fontSize: 20),
+          ),
+          Text(envio['nombre'] + ' ' + envio['apellidos']),
+          Text(envio['empresa']),
+          Text(envio['calle'] + ' ' + envio['numExt'] + ' ' + envio['numInt']),
+          Text(envio['referencia']),
+          Text(envio['colonia']),
+          Text(envio['codigoPostal'] + ', ' + envio['ciudad']),
+          Text(envio['estado'] + ', ' + envio['pais']),
+          SizedBox(height: 5),
+          Text('Tel, ' + envio['telefono']),
+          InkWell(
             child: Text(
-              'Direccion de envio',
-              style: TextStyle(fontSize: 20),
+              'Cambiar',
+              style: TextStyle(color: Colors.blue),
             ),
-          ),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-            child: Text('Verifique sus direccion de envio'),
-          ),
-          if (MediaQuery.of(context).size.width > 900)
-            _direccionEnvioWeb(ancho)
-          else
-            ..._direccionEnvioMovil(ancho)
+            onTap: () {},
+          )
         ],
       ),
     );
@@ -337,107 +426,78 @@ class _PagoPageState extends State<PagoPage>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-            child: Text(
-              'Datos de entrega',
-              style: TextStyle(fontSize: 20),
-            ),
+          Text(
+            'Datos de entrega',
+            style: TextStyle(fontSize: 20),
           ),
-          if (MediaQuery.of(context).size.width > 900)
-            _datosRecogerTienda(ancho)
-          else
-            ..._datosRecogerTiendaMovil(ancho)
+          Text(
+            'Nombre, ' + datosRecoger['nombre'],
+            style: TextStyle(fontSize: 15),
+          ),
+          Text('Apellido, ' + datosRecoger['apellidos'],
+              style: TextStyle(fontSize: 15)),
+          Text('Tel, ' + datosRecoger['telefono'],
+              style: TextStyle(fontSize: 15)),
+          InkWell(
+            child: Text(
+              'Cambiar',
+              style: TextStyle(color: Colors.blue),
+            ),
+            onTap: () {},
+          )
         ],
       ),
     );
   }
 
-  Widget _direccionEnvioWeb(double ancho) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _cardEnvio(ancho),
-        Column(
-          children: [_botonEditar('direcciones/1', _envioDomicilio)],
-        )
-      ],
-    );
-  }
-
-  List<Widget> _direccionEnvioMovil(double ancho) {
-    return [
-      _cardEnvio(ancho),
-      _botonEditar('direcciones/1', _envioDomicilio),
-    ];
-  }
-
-  Widget _datosRecogerTienda(double ancho) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _cardDatosEntrega(ancho),
-        Column(
-          children: [_botonEditar('direcciones/3', _recogerTienda)],
-        )
-      ],
-    );
-  }
-
-  List<Widget> _datosRecogerTiendaMovil(double ancho) {
-    return [
-      _cardDatosEntrega(ancho),
-      _botonEditar('direcciones/3', _recogerTienda),
-    ];
-  }
-
-  Widget _cardEnvio(double ancho) {
-    return Container(
-      height: 250,
-      width: ancho,
-      child: Card(
-        child: Column(
-          children: [
-            ListTile(
-              title: Text(envio['nombre']),
-              subtitle: Text(
-                envio['empresa'],
-              ),
-            ),
-            Text(
-                envio['calle'] + ' ' + envio['numExt'] + ' ' + envio['numInt']),
-            Text(envio['referencia']),
-            Text(envio['colonia']),
-            Text(envio['codigoPostal'] + ', ' + envio['ciudad']),
-            Text(envio['estado'] + ', ' + envio['pais']),
-            SizedBox(height: 10),
-            Text('Tel, ' + envio['telefono'])
-          ],
+  Widget _mostrarMetodoPago() {
+    if (_paypal) {
+      return Container(
+        child: Card(
+          child: Column(
+            children: [
+              Text('Paypal'),
+              Text('email'),
+              InkWell(
+                child: Text(
+                  'Cambiar',
+                  style: TextStyle(color: Colors.blue),
+                ),
+                onTap: () {},
+              )
+            ],
+          ),
         ),
-      ),
-    );
-  }
-
-  Widget _cardDatosEntrega(double ancho) {
-    print(datosRecoger['nombre']);
-    return Container(
-      height: 250,
-      width: ancho,
-      child: Card(
-        child: Column(
-          children: [
-            Text(
-              'Nombre, ' + datosRecoger['nombre'],
-              style: TextStyle(fontSize: 15),
-            ),
-            Text('Apellido, ' + datosRecoger['apellidos'],
-                style: TextStyle(fontSize: 15)),
-            Text('Tel, ' + datosRecoger['telefono'],
-                style: TextStyle(fontSize: 15))
-          ],
+      );
+    } else if (_tarjeta) {
+      return Container(
+        child: Card(
+          child: Column(
+            children: [
+              Text('Tarjeta'),
+              Text('Nombre'),
+              InkWell(
+                child: Text(
+                  'Cambiar',
+                  style: TextStyle(color: Colors.blue),
+                ),
+                onTap: () {},
+              )
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      return Container(
+        child: Card(
+          child: Column(
+            children: [
+              Text('Pago al recibir el pedido'),
+            ],
+          ),
+        ),
+      );
+    }
   }
 
   Widget _direccionFacturaWeb(double ancho) {
@@ -445,7 +505,6 @@ class _PagoPageState extends State<PagoPage>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _cardFactura(ancho),
-        _botonEditar('direcciones/2', _factura),
       ],
     );
   }
@@ -458,33 +517,138 @@ class _PagoPageState extends State<PagoPage>
   }
 
   Widget _cardFactura(double ancho) {
-    return Container(
-      height: 200,
-      width: ancho,
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          child: Card(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: 500,
+                  child: Card(
+                    child: Row(
+                      children: [
+                        Checkbox(
+                          value: _factura,
+                          onChanged: (bool value) {
+                            setState(() {
+                              _factura = value;
+                            });
+                          },
+                        ),
+                        Text('Factura'),
+                      ],
+                    ),
+                  ),
+                ),
+                Card(
+                  child: Opacity(
+                    opacity: _factura ? 1 : 0.3,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.40,
+                      child: Card(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Razon social o nombre',
+                              style: TextStyle(color: Colors.grey[700]),
+                            ),
+                            Text(factura['nombre']),
+                            SizedBox(height: 5),
+                            Text(
+                              'RFC',
+                              style: TextStyle(color: Colors.grey[700]),
+                            ),
+                            Text(factura['rfc']),
+                            SizedBox(height: 5),
+                            Text(
+                              'Uso de CFDI',
+                              style: TextStyle(color: Colors.grey[700]),
+                            ),
+                            Text(factura['usoDeCEDI']),
+                            InkWell(
+                              child: Text(
+                                'Cambiar',
+                                style: TextStyle(color: Colors.blue),
+                              ),
+                              onTap: () {},
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+    /* return Container(
       child: Card(
         child: Column(
           children: [
-            Text(
-              'Razon social o nombre',
-              style: TextStyle(color: Colors.grey[700]),
+            Container(
+              child: Card(
+                child: Row(
+                  children: [
+                    Checkbox(
+                      value: _factura,
+                      onChanged: (bool value) {
+                        setState(() {
+                          _factura = value;
+                        });
+                      },
+                    ),
+                    Expanded(child: Text('Factura')),
+                  ],
+                ),
+              ),
             ),
-            Text(factura['nombre']),
-            SizedBox(height: 5),
-            Text(
-              'RFC',
-              style: TextStyle(color: Colors.grey[700]),
-            ),
-            Text(factura['rfc']),
-            SizedBox(height: 5),
-            Text(
-              'Uso de CFDI',
-              style: TextStyle(color: Colors.grey[700]),
-            ),
-            Text(factura['usoDeCEDI'])
+            Card(
+              child: Opacity(
+                opacity: _factura ? 1 : 0.3,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.40,
+                      child: Card(
+                        child: Column(
+                          children: [
+                            Text(
+                              'Razon social o nombre',
+                              style: TextStyle(color: Colors.grey[700]),
+                            ),
+                            Text(factura['nombre']),
+                            SizedBox(height: 5),
+                            Text(
+                              'RFC',
+                              style: TextStyle(color: Colors.grey[700]),
+                            ),
+                            Text(factura['rfc']),
+                            SizedBox(height: 5),
+                            Text(
+                              'Uso de CFDI',
+                              style: TextStyle(color: Colors.grey[700]),
+                            ),
+                            Text(factura['usoDeCEDI'])
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )
           ],
         ),
       ),
-    );
+    ); */
   }
 
   Widget _botonEditar(String ruta, bool activo) {

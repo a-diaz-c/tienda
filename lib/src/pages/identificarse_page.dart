@@ -64,7 +64,6 @@ class _IdentificarsePageState extends State<IdentificarsePage> {
   Widget _ingresarWeb() {
     final _keylogin = GlobalKey<FormState>();
     String nombre = '';
-    String empresa = '';
     String password = '';
 
     final anchoFormulario = MediaQuery.of(context).size.width * .5;
@@ -147,36 +146,6 @@ class _IdentificarsePageState extends State<IdentificarsePage> {
                       validator: (value) {
                         if (value.isEmpty) {
                           return 'Constrseña';
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                  Container(
-                    width: anchoFormulario * 0.6,
-                    height: 40,
-                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        labelText: 'Empresa',
-                        contentPadding: EdgeInsetsDirectional.only(
-                          top: 5.0,
-                          bottom: 0.0,
-                          start: 5.0,
-                          end: 5.0,
-                        ),
-                        errorStyle: TextStyle(height: 0),
-                      ),
-                      obscureText: true,
-                      onChanged: (value) {
-                        empresa = value;
-                      },
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Ingrese Empresa';
                         }
                         return null;
                       },
