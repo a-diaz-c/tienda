@@ -270,30 +270,6 @@ class _DrawerComponentState extends State<DrawerComponent> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          prefixIcon: Icon(Icons.business),
-                          labelText: 'No Empresa',
-                          contentPadding: EdgeInsetsDirectional.only(
-                              top: 5.0, bottom: 0.0, start: 5.0, end: 5.0),
-                        ),
-                        obscureText: true,
-                        onChanged: (value) {
-                          _empresa = value;
-                        },
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'Empresa ';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: RaisedButton(
                         child: Text(
@@ -309,7 +285,7 @@ class _DrawerComponentState extends State<DrawerComponent> {
                         onPressed: () async {
                           if (_formKey.currentState.validate()) {
                             final res = await usuariosProviders.login(
-                                _usuario, _password, _empresa);
+                                _usuario, _password);
 
                             if (res['resp']) {
                               var nombre = res['msg'].toString().split(' ');

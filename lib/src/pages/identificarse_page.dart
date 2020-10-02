@@ -395,20 +395,6 @@ class _IdentificarsePageState extends State<IdentificarsePage> {
                 ),
               ),
               Container(
-                height: 60,
-                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    labelText: 'Empresa',
-                    contentPadding: EdgeInsetsDirectional.only(
-                        top: 5.0, bottom: 0.0, start: 5.0, end: 5.0),
-                  ),
-                ),
-              ),
-              Container(
                 padding: EdgeInsets.symmetric(horizontal: 10),
                 child: RaisedButton(
                   child: Text(
@@ -585,7 +571,7 @@ class _IdentificarsePageState extends State<IdentificarsePage> {
   }
 
   _login(String usuario, String password, String empresa) async {
-    final res = await usuariosProviders.login(usuario, password, empresa);
+    final res = await usuariosProviders.login(usuario, password);
     print(res);
   }
 }
