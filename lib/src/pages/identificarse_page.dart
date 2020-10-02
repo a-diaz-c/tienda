@@ -32,7 +32,7 @@ class _IdentificarsePageState extends State<IdentificarsePage> {
             if (MediaQuery.of(context).size.width > 900)
               _cuerpoWeb()
             else
-              ...cuerpoMovil(),
+              cuerpoMovil(),
             footer(),
           ],
         ),
@@ -54,12 +54,15 @@ class _IdentificarsePageState extends State<IdentificarsePage> {
     );
   }
 
-  List<Widget> cuerpoMovil() {
-    return [
-      SizedBox(height: 40),
-      _ingresarMovil(),
-      _registrarMovil(),
-    ];
+  Widget cuerpoMovil() {
+    return Container(
+      child: Column(
+        children: [
+          _ingresarMovil(),
+          _registrarMovil(),
+        ],
+      ),
+    );
   }
 
   Widget _ingresarWeb() {
