@@ -354,7 +354,13 @@ class _IdentificarsePageState extends State<IdentificarsePage> {
     final _keylogin = GlobalKey<FormState>();
     String nombre = '';
     String empresa = '';
-    String password = '';
+    Map<String, dynamic> datosTarjeta = {
+      'nombre': 'Hector',
+      'numero': '5899 55224 4448 8881',
+      'cp': '33453',
+      'direccion': ' Gastos en general',
+      'cvv': '123',
+    };
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -364,41 +370,125 @@ class _IdentificarsePageState extends State<IdentificarsePage> {
         child: Form(
           key: _keylogin,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _titulo('Ingresa a tu cuenta'),
               Container(
+                height: 40,
                 padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                 child: TextFormField(
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
                     ),
-                    labelText: 'Email',
-                    contentPadding: EdgeInsetsDirectional.only(
-                        top: 5.0, bottom: 0.0, start: 5.0, end: 5.0),
+                    labelText: 'Nombre (Como está en la tarjeta)',
+                    errorStyle: TextStyle(height: 0),
                   ),
+                  onChanged: (value) {
+                    datosTarjeta['nombre'] = value;
+                  },
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Nombre';
+                    }
+                    return null;
+                  },
                 ),
               ),
               Container(
-                height: 60,
+                height: 40,
                 padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                 child: TextFormField(
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
                     ),
-                    labelText: 'Contraseña',
-                    contentPadding: EdgeInsetsDirectional.only(
-                        top: 5.0, bottom: 0.0, start: 5.0, end: 5.0),
+                    labelText: 'Numero de tarjeta',
+                    errorStyle: TextStyle(height: 0),
                   ),
+                  onChanged: (value) {
+                    datosTarjeta['numero'] = value;
+                  },
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Numero de tarjeta';
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              Container(
+                height: 40,
+                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                child: TextFormField(
+                  initialValue: datosTarjeta['cp'],
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    labelText: 'CP',
+                    errorStyle: TextStyle(height: 0),
+                  ),
+                  onChanged: (value) {
+                    datosTarjeta['CP'] = value;
+                  },
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'CP';
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              Container(
+                height: 40,
+                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                child: TextFormField(
+                  initialValue: datosTarjeta['direccion'],
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    labelText: 'Direccion',
+                    errorStyle: TextStyle(height: 0),
+                  ),
+                  onChanged: (value) {
+                    datosTarjeta['direccion'] = value;
+                  },
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Direccion';
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              Container(
+                height: 40,
+                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                child: TextFormField(
+                  initialValue: datosTarjeta['cvv'],
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    labelText: 'CVV',
+                    errorStyle: TextStyle(height: 0),
+                  ),
+                  onChanged: (value) {
+                    datosTarjeta['cvv'] = value;
+                  },
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'CVV';
+                    }
+                    return null;
+                  },
                 ),
               ),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 10),
                 child: RaisedButton(
                   child: Text(
-                    "Iniciar Sesion",
+                    "Guardar",
                     style: TextStyle(),
                   ),
                   shape: RoundedRectangleBorder(
@@ -407,7 +497,7 @@ class _IdentificarsePageState extends State<IdentificarsePage> {
                   color: Colors.amber,
                   onPressed: () {
                     if (_keylogin.currentState.validate()) {
-                      Navigator.pushNamed(context, '/pago');
+                      Navigator.of(context).pop();
                     }
                   },
                 ),
@@ -438,26 +528,22 @@ class _IdentificarsePageState extends State<IdentificarsePage> {
             children: [
               _titulo('¡Registrate!'),
               Container(
+                height: 40,
                 padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                 child: TextFormField(
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
                     ),
-                    labelText: 'Nombre',
-                    contentPadding: EdgeInsetsDirectional.only(
-                      top: 0.0,
-                      bottom: 0.0,
-                      start: 5.0,
-                      end: 5.0,
-                    ),
+                    labelText: 'Nombre (Como está en la tarjeta)',
+                    errorStyle: TextStyle(height: 0),
                   ),
                   onChanged: (value) {
                     nombre = value;
                   },
                   validator: (value) {
                     if (value.isEmpty) {
-                      return 'Ingrese Nombre';
+                      return 'Nombre';
                     }
                     return null;
                   },
