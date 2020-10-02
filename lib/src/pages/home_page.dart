@@ -1,6 +1,7 @@
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_web_scrollbar/flutter_web_scrollbar.dart';
+import 'package:draggable_scrollbar/draggable_scrollbar.dart';
 import 'package:tienda/src/components/cardProductos.dart';
 import 'package:tienda/src/components/contentDialogFiltro.dart';
 import 'package:tienda/src/components/drawer.dart';
@@ -17,7 +18,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  ScrollController _controller;
+  ScrollController _rrectController = ScrollController();
   List productos;
   List<String> marcas = [];
   List<bool> _checkbox;
@@ -27,18 +28,10 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _controller = ScrollController();
     print('Home page');
     _cargarProductos();
     _cargarMarcas();
     _checkbox = List.filled(marcas.length, false);
-  }
-
-  void scrollCallBack(DragUpdateDetails dragUpdate) {
-    setState(() {
-      // Note: 3.5 represents the theoretical height of all my scrollable content. This number will vary for you.
-      _controller.position.moveTo(dragUpdate.globalPosition.dy * 3.5);
-    });
   }
 
   _cargarProductos() {
@@ -71,25 +64,14 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: DrawerComponent(),
-      body: Stack(
-        children: [
-          SingleChildScrollView(
-            controller: _controller,
-            child: _escritrio(),
-          ),
-          FlutterWebScroller(
-            //Pass a reference to the ScrollCallBack function into the scrollbar
-            scrollCallBack,
-            //Add optional values
-            scrollBarBackgroundColor: Colors.white,
-            scrollBarWidth: 20.0,
-            dragHandleColor: Colors.grey[400],
-            dragHandleBorderRadius: 2.0,
-            dragHandleHeight: 40.0,
-            dragHandleWidth: 15.0,
-          ),
-        ],
-      ),
+      body: DraggableScrollbar.rrect(
+          alwaysVisibleScrollThumb: true,
+          controller: _rrectController,
+          backgroundColor: Colors.grey[300],
+          child: ListView(
+            controller: _rrectController,
+            children: [_escritrio()],
+          )),
     );
   }
 

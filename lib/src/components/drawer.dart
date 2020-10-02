@@ -193,7 +193,6 @@ class _DrawerComponentState extends State<DrawerComponent> {
     final usuariosProviders = UsuariosProviders();
     String _usuario = '';
     String _password = '';
-    String _empresa = '';
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -207,11 +206,11 @@ class _DrawerComponentState extends State<DrawerComponent> {
                 child: Text(
                   "Login",
                   style: TextStyle(
-                      color: Colors.blue, fontWeight: FontWeight.bold),
+                      color: Color(colorRojo), fontWeight: FontWeight.bold),
                 ),
               ),
               SizedBox(width: 20.0),
-              Icon(Icons.account_box, color: Colors.blue)
+              Icon(Icons.account_box, color: Color(colorRojo))
             ],
           ),
           content: Stack(
@@ -281,7 +280,7 @@ class _DrawerComponentState extends State<DrawerComponent> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15.0),
                         ),
-                        color: Colors.blue,
+                        color: Color(colorRojo),
                         onPressed: () async {
                           if (_formKey.currentState.validate()) {
                             final res = await usuariosProviders.login(

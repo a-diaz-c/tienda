@@ -289,7 +289,7 @@ class _PagoPageState extends State<PagoPage>
             });
           },
         ),
-        Text('Paypa'),
+        Text('Paypal'),
         SizedBox(width: 10.0),
         Checkbox(
           value: _tarjeta,
@@ -332,7 +332,7 @@ class _PagoPageState extends State<PagoPage>
               });
             },
           ),
-          Text('Paypa'),
+          Text('Paypal'),
         ],
       ),
       Row(
