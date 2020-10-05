@@ -73,7 +73,7 @@ class _PagoPageState extends State<PagoPage>
     'cvv': '123',
   };
 
-  String emailPaypal = "";
+  String emailPaypal = "email@ejemplo.com";
 
   @override
   void initState() {
@@ -644,9 +644,9 @@ class _PagoPageState extends State<PagoPage>
                 style: TextStyle(),
               ),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0),
-              ),
-              color: Colors.blue,
+                  borderRadius: BorderRadius.circular(15.0),
+                  side: BorderSide(color: Colors.black)),
+              color: Colors.amber[400],
               onPressed: () {
                 if (_tabController.index < _tabController.length - 1) {
                   _tabController.animateTo(_tabController.index + 1);

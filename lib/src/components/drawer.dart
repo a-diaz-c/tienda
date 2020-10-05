@@ -107,11 +107,17 @@ class _DrawerComponentState extends State<DrawerComponent> {
   }
 
   List<Widget> _listarCategorias(List datos) {
-    List<Widget> todo = [];
+    List<Widget> salida = [];
+    salida.add(ListTile(
+      title: Text('Todo'),
+      onTap: () {
+        Navigator.pushNamed(context, '/');
+      },
+    ));
     datos.forEach((element) {
       var familia = element.id;
       if (element.hijos.length != 0) {
-        todo.add(
+        salida.add(
           ExpansionTile(
             title: Text(
               element.nombre,
@@ -121,7 +127,7 @@ class _DrawerComponentState extends State<DrawerComponent> {
           ),
         );
       } else {
-        todo.add(ListTile(
+        salida.add(ListTile(
           title: Text(element.nombre),
           onTap: () {
             Navigator.pushNamed(context, 'productos/$familia');
@@ -131,7 +137,7 @@ class _DrawerComponentState extends State<DrawerComponent> {
         ));
       }
     });
-    return todo;
+    return salida;
   }
 
   _ordenarCategorias() {

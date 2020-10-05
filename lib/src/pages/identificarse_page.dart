@@ -261,7 +261,6 @@ class _IdentificarsePageState extends State<IdentificarsePage> {
                           start: 5.0,
                           end: 5.0,
                         ),
-                        errorStyle: TextStyle(fontSize: 9, height: 0),
                       ),
                       onChanged: (value) {
                         email = value;
@@ -383,11 +382,16 @@ class _IdentificarsePageState extends State<IdentificarsePage> {
                     contentPadding: EdgeInsetsDirectional.only(
                         top: 5.0, bottom: 0.0, start: 5.0, end: 5.0),
                   ),
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Email invalido';
+                    }
+                    return null;
+                  },
                 ),
               ),
               Container(
                 width: 300,
-                height: 60,
                 padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                 child: TextFormField(
                   decoration: InputDecoration(
@@ -398,6 +402,12 @@ class _IdentificarsePageState extends State<IdentificarsePage> {
                     contentPadding: EdgeInsetsDirectional.only(
                         top: 5.0, bottom: 0.0, start: 5.0, end: 5.0),
                   ),
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Ingrese constraseña';
+                    }
+                    return null;
+                  },
                 ),
               ),
               Container(
