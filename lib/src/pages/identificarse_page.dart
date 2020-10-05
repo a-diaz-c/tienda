@@ -19,7 +19,6 @@ class _IdentificarsePageState extends State<IdentificarsePage> {
   @override
   Widget build(BuildContext context) {
     double anchoPantalla = MediaQuery.of(context).size.width;
-    print('dibujando');
     return Scaffold(
       drawer: DrawerComponent(),
       body: DraggableScrollbar.rrect(
@@ -402,6 +401,7 @@ class _IdentificarsePageState extends State<IdentificarsePage> {
                     contentPadding: EdgeInsetsDirectional.only(
                         top: 5.0, bottom: 0.0, start: 5.0, end: 5.0),
                   ),
+                  obscureText: true,
                   validator: (value) {
                     if (value.isEmpty) {
                       return 'Ingrese constraseña';
@@ -423,7 +423,7 @@ class _IdentificarsePageState extends State<IdentificarsePage> {
                   color: Colors.amber,
                   onPressed: () {
                     if (_keylogin.currentState.validate()) {
-                      Navigator.pushNamed(context, '/pago');
+                      Navigator.pushNamed(context, 'pago');
                     }
                   },
                 ),
@@ -511,6 +511,7 @@ class _IdentificarsePageState extends State<IdentificarsePage> {
                     contentPadding: EdgeInsetsDirectional.only(
                         top: 5.0, bottom: 0.0, start: 5.0, end: 5.0),
                   ),
+                  obscureText: true,
                   onChanged: (value) {
                     password = value;
                   },
@@ -530,6 +531,7 @@ class _IdentificarsePageState extends State<IdentificarsePage> {
                     contentPadding: EdgeInsetsDirectional.only(
                         top: 5.0, bottom: 0.0, start: 5.0, end: 5.0),
                   ),
+                  obscureText: true,
                   onChanged: (value) {
                     passwordDos = value;
                   },
@@ -554,7 +556,7 @@ class _IdentificarsePageState extends State<IdentificarsePage> {
                         _alert("Las contraseñas son diferentes");
                       } else {
                         print('$nombre $email $password $passwordDos');
-                        Navigator.pushNamed(context, '/pago');
+                        Navigator.pushNamed(context, 'pago');
                       }
                     }
                   },
