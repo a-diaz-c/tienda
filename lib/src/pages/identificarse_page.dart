@@ -18,6 +18,7 @@ class _IdentificarsePageState extends State<IdentificarsePage> {
 
   @override
   Widget build(BuildContext context) {
+    double anchoPantalla = MediaQuery.of(context).size.width;
     print('dibujando');
     return Scaffold(
       drawer: DrawerComponent(),
@@ -29,10 +30,10 @@ class _IdentificarsePageState extends State<IdentificarsePage> {
           controller: _rrectController,
           children: [
             Navbar(),
-            if (MediaQuery.of(context).size.width > 900)
+            /* if ( anchoPantalla > 900)
               _cuerpoWeb()
-            else
-              cuerpoMovil(),
+            else */
+            cuerpoMovil(),
             footer(),
           ],
         ),

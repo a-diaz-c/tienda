@@ -1,6 +1,5 @@
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_web_scrollbar/flutter_web_scrollbar.dart';
 import 'package:draggable_scrollbar/draggable_scrollbar.dart';
 import 'package:tienda/src/components/cardProductos.dart';
 import 'package:tienda/src/components/contentDialogFiltro.dart';

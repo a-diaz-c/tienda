@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_web_scrollbar/flutter_web_scrollbar.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:tienda/src/components/dialogPregunta.dart';
 
@@ -22,6 +21,7 @@ class ProductoPage extends StatefulWidget {
 
 class _ProductoPageState extends State<ProductoPage>
     with SingleTickerProviderStateMixin {
+  ScrollController _rrectController = ScrollController();
   ScrollController _scrollController;
   ProductosProviders providers = ProductosProviders();
   Map producto;
@@ -55,40 +55,33 @@ class _ProductoPageState extends State<ProductoPage>
     double _anchoPantalla = MediaQuery.of(context).size.width;
     return Scaffold(
       drawer: DrawerComponent(),
-      body: Stack(
-        children: [
-          SingleChildScrollView(
-            controller: _scrollController,
-            child: Column(
-              children: [
-                Navbar(),
-                LayoutBuilder(builder: (context, constraints) {
-                  if (MediaQuery.of(context).size.width > 900) {
-                    return _cardProducto(_anchoPantalla * 0.60);
-                  } else {
-                    return _cardProductoMovil(_anchoPantalla * 0.90);
-                  }
-                }),
-                _tabs(MediaQuery.of(context).size.width > 900
-                    ? _anchoPantalla * 0.60
-                    : _anchoPantalla * 0.90),
-                footer(),
-              ],
-            ),
-          ),
-          FlutterWebScroller(
-            //Pass a reference to the ScrollCallBack function into the scrollbar
-            scrollCallBack,
-            //Add optional values
-            scrollBarBackgroundColor: Colors.white,
-            scrollBarWidth: 20.0,
-            dragHandleColor: Colors.grey[400],
-            dragHandleBorderRadius: 2.0,
-            dragHandleHeight: 40.0,
-            dragHandleWidth: 15.0,
-          ),
-        ],
-      ),
+      body: DraggableScrollbar.rrect(
+          alwaysVisibleScrollThumb: true,
+          controller: _rrectController,
+          backgroundColor: Colors.grey[300],
+          child: ListView(
+            controller: _rrectController,
+            children: [_escritorio(_anchoPantalla)],
+          )),
+    );
+  }
+
+  Widget _escritorio(double anchoPantalla) {
+    return Column(
+      children: [
+        Navbar(),
+        LayoutBuilder(builder: (context, constraints) {
+          if (MediaQuery.of(context).size.width > 900) {
+            return _cardProducto(anchoPantalla * 0.60);
+          } else {
+            return _cardProductoMovil(anchoPantalla * 0.90);
+          }
+        }),
+        _tabs(MediaQuery.of(context).size.width > 900
+            ? anchoPantalla * 0.60
+            : anchoPantalla * 0.90),
+        footer(),
+      ],
     );
   }
 
