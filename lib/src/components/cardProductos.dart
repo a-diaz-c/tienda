@@ -100,7 +100,7 @@ class _CardProductoState extends State<CardProducto> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text('\$ ' + widget.precio.toString()),
+        Text('\$ ' + widget.precio.toStringAsFixed(2)),
       ],
     );
   }
