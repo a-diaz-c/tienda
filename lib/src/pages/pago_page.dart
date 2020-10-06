@@ -177,7 +177,7 @@ class _PagoPageState extends State<PagoPage>
                       });
                     },
                   ),
-                  Text('Enviar'),
+                  Text('Llevamos tu orden'),
                   SizedBox(width: 10.0),
                   Checkbox(
                     value: _recogerTienda,
@@ -188,7 +188,7 @@ class _PagoPageState extends State<PagoPage>
                       });
                     },
                   ),
-                  Text('Recoger en tienda'),
+                  Text('Recoger tu orden'),
                 ],
               ),
               _recogerTienda ? _datosRecogerTienda() : _datosEnvioDomicilio(),
@@ -218,7 +218,7 @@ class _PagoPageState extends State<PagoPage>
                     });
                   },
                 ),
-                Text('Enviar'),
+                Text('Llevamos tu orden'),
                 SizedBox(width: 10.0),
                 Checkbox(
                   value: _recogerTienda,
@@ -229,7 +229,7 @@ class _PagoPageState extends State<PagoPage>
                     });
                   },
                 ),
-                Text('Recoger en tienda'),
+                Text('Recoge tu orden'),
               ],
             ),
             _recogerTienda ? _datosRecogerTienda() : _datosEnvioDomicilio(),
@@ -247,6 +247,10 @@ class _PagoPageState extends State<PagoPage>
           padding: const EdgeInsets.all(10.0),
           child: Column(
             children: [
+              Text(
+                'Forma de pago',
+                style: TextStyle(fontSize: 20),
+              ),
               if (MediaQuery.of(context).size.width > 900)
                 _pagoWeb()
               else
@@ -265,6 +269,10 @@ class _PagoPageState extends State<PagoPage>
         padding: const EdgeInsets.all(10.0),
         child: Column(
           children: [
+            Text(
+              'Forma de pago',
+              style: TextStyle(fontSize: 20),
+            ),
             if (MediaQuery.of(context).size.width > 900)
               _pagoWeb()
             else
@@ -453,13 +461,18 @@ class _PagoPageState extends State<PagoPage>
             style: TextStyle(fontSize: 20),
           ),
           Text(
-            'Nombre, ' + datosRecoger['nombre'],
+            'A nombre de: , ' +
+                datosRecoger['nombre'] +
+                ' ' +
+                datosRecoger['apellidos'],
             style: TextStyle(fontSize: 15),
           ),
-          Text('Apellido, ' + datosRecoger['apellidos'],
-              style: TextStyle(fontSize: 15)),
-          Text('Tel, ' + datosRecoger['telefono'],
-              style: TextStyle(fontSize: 15)),
+          Text(
+            'Tel, ' + datosRecoger['telefono'],
+            style: TextStyle(fontSize: 15),
+          ),
+          Text(
+              'Direccion de la tenda: Applebees Plaza Galerias Diana Costera. Acapulco, Gro.'),
           InkWell(
             child: Text(
               'Cambiar',
@@ -546,7 +559,10 @@ class _PagoPageState extends State<PagoPage>
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Text('Pago al recibir el pedido', style: TextStyle(fontSize: 20)),
+            Text(
+              'Pagaré cuando reciba/recoja mi pedido',
+              style: TextStyle(fontSize: 20),
+            ),
           ],
         ),
       );
