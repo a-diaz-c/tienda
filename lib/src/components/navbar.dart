@@ -12,6 +12,7 @@ class Navbar extends StatefulWidget {
 }
 
 class _NavbarState extends State<Navbar> {
+  String _tienda = "Selecciona tu tienda";
   ProductosProviders productosProviders = ProductosProviders();
   List<Categoria> lista = [];
   Map _datosCarrito;
@@ -75,6 +76,10 @@ class _NavbarState extends State<Navbar> {
                   _logoTienda(),
                 ],
               ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: _tiendas(),
+              ),
               Row(
                 children: [
                   _textField(anchoPantalla),
@@ -107,6 +112,7 @@ class _NavbarState extends State<Navbar> {
           SizedBox(
             height: 20.0,
           ),
+          _tiendas(),
           _textField(anchoPantalla),
           _carrito(context),
         ],
@@ -147,6 +153,62 @@ class _NavbarState extends State<Navbar> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _tiendas() {
+    return Row(
+      children: [
+        Text(
+          'Selecciona tu tienda',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.normal),
+        ),
+        SizedBox(width: 10),
+        PopupMenuButton(
+          onSelected: (value) {
+            _tienda = value;
+            setState(() {});
+          },
+          itemBuilder: (context) => [
+            PopupMenuItem(
+              value: "Applebee's Cuernavaca",
+              child: Text("Applebee's Cuernavaca"),
+            ),
+            PopupMenuItem(
+              value: "Applebee’s Plaza Carso",
+              child: Text("Applebee’s Plaza Carso"),
+            ),
+            PopupMenuItem(
+              value: "Applebee´s Galerías Saltillo",
+              child: Text("Applebee´s Galerías Saltillo"),
+            ),
+            PopupMenuItem(
+              value: "Applebee’s Plaza Carso",
+              child: Text("Applebee’s Plaza Carso"),
+            ),
+            PopupMenuItem(
+              value: "Applebee's Vía Vallejo",
+              child: Text("Applebee's Vía Vallejo"),
+            ),
+            PopupMenuItem(
+              value: "Applebee's Acapulco",
+              child: Text("Applebee's Acapulco"),
+            ),
+          ],
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.white,
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
+            child: Text(_tienda,
+                style: TextStyle(
+                    color: Colors.black, fontWeight: FontWeight.normal)),
+          ),
+          offset: Offset(0, 100),
+          tooltip: 'Mostrar Menu',
+        ),
+      ],
     );
   }
 
