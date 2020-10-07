@@ -27,9 +27,12 @@ class _CarritoPageState extends State<CarritoPage> {
     _cargarCarrito();
   }
 
-  _cargarCarrito() {
-    datos = productosProviders.getProductosCarrito();
-    if (datos == null) datos = [];
+  _cargarCarrito() async {
+    await productosProviders
+        .getProductosCarrito()
+        .then((value) => datos = value);
+
+    setState(() {});
   }
 
   @override

@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:localstorage/localstorage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductosProviders {
   List<Map> productos = [
@@ -139,7 +142,6 @@ class ProductosProviders {
       'descripcion': ''
     },
   ];
-  final LocalStorage storage = new LocalStorage('user_app');
 
   List jsonProductos() {
     return productos;
@@ -179,12 +181,14 @@ class ProductosProviders {
   }
 
   addProductoCarrito(Map<String, dynamic> producto) async {
-    List items = storage.getItem('productos');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List items;
 
-    if (items == null) {
+    if (prefs.getString('carrito') == null) {
       items = [];
       items.add(producto);
     } else {
+      items = jsonDecode(prefs.getString('carrito'));
       var index =
           items.indexWhere((element) => element['id'] == producto['id']);
       if (index == -1)
@@ -193,24 +197,29 @@ class ProductosProviders {
         items[index]['cantidad'] += producto['cantidad'];
       }
     }
-    storage.setItem('productos', items);
+    prefs.setString('carrito', jsonEncode(items));
   }
 
-  removeProductoCarrito(String id) {
-    List items = storage.getItem('productos');
+  removeProductoCarrito(String id) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var carrito = prefs.getString('carrito');
+    List items;
+    if (carrito != null) {
+      items = jsonDecode(carrito);
+      items.removeWhere((element) => element['id'] == id);
 
-    print('Elminando $id');
-
-    items.removeWhere((element) => element['id'] == id);
-
-    storage.setItem('productos', items);
+      prefs.setString('carrito', jsonEncode(items));
+    }
   }
 
-  Map sizeCarrito() {
-    List items = storage.getItem('productos');
+  Future<Map> sizeCarrito() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var carrito = prefs.getString('carrito');
+    List items;
     Map<String, dynamic> resultado = {'cantidad': 0, 'total': 0};
 
     if (items != null) {
+      items = jsonDecode(carrito);
       items.forEach((element) {
         resultado['cantidad'] += element['cantidad'];
         resultado['total'] += (element['cantidad'] * element['precio']);
@@ -219,14 +228,24 @@ class ProductosProviders {
     return resultado;
   }
 
-  List getProductosCarrito() {
-    List items = storage.getItem('productos');
+  Future<List> getProductosCarrito() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var carrito = prefs.getString('carrito');
+    List items;
+
+    if (carrito != null) {
+      items = jsonDecode(carrito);
+    } else {
+      items = [];
+    }
+
     return items;
   }
 
   actualizarCarrito(List productos) async {
-    await storage.clear();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
 
-    storage.setItem('productos', productos);
+    prefs.setString('carrito', jsonEncode(productos));
   }
 }

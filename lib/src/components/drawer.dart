@@ -33,7 +33,7 @@ class _DrawerComponentState extends State<DrawerComponent> {
   }
 
   _cargarCarrito() {
-    _datosCarrito = productosProviders.sizeCarrito();
+    productosProviders.sizeCarrito().then((value) => _datosCarrito = value);
   }
 
   @override

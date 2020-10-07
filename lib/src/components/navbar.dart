@@ -1,9 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:tienda/src/models/categoria.dart';
 import 'package:tienda/src/providers/productos_providers.dart';
+import 'package:tienda/src/providers/tienda_providers.dart';
 import 'package:tienda/src/providers/usuarios_providers.dart';
 
 class Navbar extends StatefulWidget {
@@ -14,11 +13,7 @@ class Navbar extends StatefulWidget {
 }
 
 class _NavbarState extends State<Navbar> {
-  Map<String, dynamic> _tiendaActual = {
-    'id': '',
-    'nombre': 'Selecciona tu tienda'
-  };
-  String _tienda = "Selecciona tu tienda";
+  Map<String, dynamic> _tiendaActual;
   List<Map<String, String>> _listTiendas = [
     {'id': "1", "nombre": "Applebee's Cuernavaca"},
     {'id': "1", "nombre": "Applebee’s Plaza Carso"},
@@ -27,8 +22,9 @@ class _NavbarState extends State<Navbar> {
     {'id': "1", "nombre": "Applebee's Acapulco"}
   ];
   ProductosProviders productosProviders = ProductosProviders();
+  TiendaProviders tiendaProviders = TiendaProviders();
   List<Categoria> lista = [];
-  Map _datosCarrito;
+  Map _datosCarrito = {'cantidad': 0, 'total': 0};
   List<Map<String, dynamic>> categorias = [
     {'id': '30', 'nombre': 'Hambuergesas'},
     {'id': '40', 'nombre': 'Costillas'},
@@ -49,7 +45,10 @@ class _NavbarState extends State<Navbar> {
     _cargarTienda();
   }
 
-  _cargarTienda() {}
+  _cargarTienda() async {
+    await tiendaProviders.getTienda().then((value) => _tiendaActual = value);
+    print(_tiendaActual);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -182,8 +181,8 @@ class _NavbarState extends State<Navbar> {
         SizedBox(width: 10),
         PopupMenuButton(
           onSelected: (value) {
-            _tienda = value['nombre'];
-            storage.setItem('tienda', jsonEncode(value));
+            _tiendaActual['nombre'] = value['nombre'];
+            tiendaProviders.addTienda(value);
             setState(() {});
           },
           itemBuilder: (context) => _listarTiendas(),
@@ -193,7 +192,7 @@ class _NavbarState extends State<Navbar> {
               color: Colors.white,
             ),
             padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
-            child: Text(_tienda,
+            child: Text(_tiendaActual['nombre'],
                 style: TextStyle(
                     color: Colors.black, fontWeight: FontWeight.normal)),
           ),
@@ -332,8 +331,11 @@ class _NavbarState extends State<Navbar> {
     }
   }
 
-  _cargarCarrito() {
-    _datosCarrito = productosProviders.sizeCarrito();
+  _cargarCarrito() async {
+    await productosProviders
+        .sizeCarrito()
+        .then((value) => _datosCarrito = value);
+    setState(() {});
   }
 
   Widget _menu() {

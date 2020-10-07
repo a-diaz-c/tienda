@@ -93,9 +93,12 @@ class _PagoPageState extends State<PagoPage>
     setState(() {});
   }
 
-  _cargarCarrito() {
-    datos = productosProviders.getProductosCarrito();
-    if (datos == null) datos = [];
+  _cargarCarrito() async {
+    await productosProviders
+        .getProductosCarrito()
+        .then((value) => datos = value);
+
+    setState(() {});
   }
 
   @override
