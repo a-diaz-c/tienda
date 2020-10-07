@@ -218,7 +218,7 @@ class ProductosProviders {
     List items;
     Map<String, dynamic> resultado = {'cantidad': 0, 'total': 0};
 
-    if (items != null) {
+    if (carrito != null) {
       items = jsonDecode(carrito);
       items.forEach((element) {
         resultado['cantidad'] += element['cantidad'];
