@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:tienda/src/models/categoria.dart';
@@ -12,7 +14,18 @@ class Navbar extends StatefulWidget {
 }
 
 class _NavbarState extends State<Navbar> {
+  Map<String, dynamic> _tiendaActual = {
+    'id': '',
+    'nombre': 'Selecciona tu tienda'
+  };
   String _tienda = "Selecciona tu tienda";
+  List<Map<String, String>> _listTiendas = [
+    {'id': "1", "nombre": "Applebee's Cuernavaca"},
+    {'id': "1", "nombre": "Applebee’s Plaza Carso"},
+    {'id': "1", "nombre": "Applebee´s Galerías Saltillo"},
+    {'id': "1", "nombre": "Applebee's Vía Vallejo"},
+    {'id': "1", "nombre": "Applebee's Acapulco"}
+  ];
   ProductosProviders productosProviders = ProductosProviders();
   List<Categoria> lista = [];
   Map _datosCarrito;
@@ -33,7 +46,10 @@ class _NavbarState extends State<Navbar> {
     super.initState();
     _nombreUsuario();
     _ordenarCategorias();
+    _cargarTienda();
   }
+
+  _cargarTienda() {}
 
   @override
   Widget build(BuildContext context) {
@@ -166,35 +182,11 @@ class _NavbarState extends State<Navbar> {
         SizedBox(width: 10),
         PopupMenuButton(
           onSelected: (value) {
-            _tienda = value;
+            _tienda = value['nombre'];
+            storage.setItem('tienda', jsonEncode(value));
             setState(() {});
           },
-          itemBuilder: (context) => [
-            PopupMenuItem(
-              value: "Applebee's Cuernavaca",
-              child: Text("Applebee's Cuernavaca"),
-            ),
-            PopupMenuItem(
-              value: "Applebee’s Plaza Carso",
-              child: Text("Applebee’s Plaza Carso"),
-            ),
-            PopupMenuItem(
-              value: "Applebee´s Galerías Saltillo",
-              child: Text("Applebee´s Galerías Saltillo"),
-            ),
-            PopupMenuItem(
-              value: "Applebee’s Plaza Carso",
-              child: Text("Applebee’s Plaza Carso"),
-            ),
-            PopupMenuItem(
-              value: "Applebee's Vía Vallejo",
-              child: Text("Applebee's Vía Vallejo"),
-            ),
-            PopupMenuItem(
-              value: "Applebee's Acapulco",
-              child: Text("Applebee's Acapulco"),
-            ),
-          ],
+          itemBuilder: (context) => _listarTiendas(),
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
@@ -210,6 +202,18 @@ class _NavbarState extends State<Navbar> {
         ),
       ],
     );
+  }
+
+  List<PopupMenuItem> _listarTiendas() {
+    List<PopupMenuItem> resultado = [];
+    _listTiendas.forEach((element) {
+      resultado.add(PopupMenuItem(
+        value: element,
+        child: Text(element['nombre']),
+      ));
+    });
+
+    return resultado;
   }
 
   Widget _carrito(BuildContext context) {
