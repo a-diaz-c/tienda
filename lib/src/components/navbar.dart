@@ -111,7 +111,7 @@ class _NavbarState extends State<Navbar> {
     return Container(
       padding: EdgeInsets.only(top: 10.0, right: 10.0, left: 10.0),
       child: SelectableText(
-        "¿Tienes alguna duda? Llámanos  (744) 484.9493",
+        "Tienda Demo Desarrollada por www.kingo.com.mx",
         style: TextStyle(fontSize: 10.0, color: Colors.white),
       ),
     );

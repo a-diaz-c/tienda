@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'Tienda app',
-        debugShowCheckedModeBanner: false,
+        debugShowCheckedModeBanner: true,
         initialRoute: '/',
         //routes: getApplicationRouter(),
         onGenerateRoute: FluroRouter.router.generator);
