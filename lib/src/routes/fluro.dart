@@ -84,7 +84,7 @@ class FluroRouter {
       handler: _direccioneshndler,
     );
     router.define(
-      '/mapas',
+      '/sucursales',
       handler: _mapasehandler,
     );
   }

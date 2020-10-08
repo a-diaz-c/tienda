@@ -32,126 +32,106 @@ class _MapasPageState extends State<MapasPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: ListView(
-          children: [
-            Navbar(),
-            Container(
-              height: MediaQuery.of(context).size.height * 0.50,
-              width: MediaQuery.of(context).size.width * 0.50,
-              child: GoogleMap(
-                key: _key,
-                markers: {
-                  Marker(
-                    GeoCoord(18.934104, -99.197179),
-                    onTap: (markerId) async {
-                      await showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          content: Text("Applebee's Cuernavaca"),
-                          actions: <Widget>[
-                            FlatButton(
-                              onPressed: Navigator.of(context).pop,
-                              child: Text('CLOSE'),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                  Marker(
-                    GeoCoord(16.8638, -99.8816),
-                    onTap: (markerId) async {
-                      await showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          content: Text("Applebee's Acapulco"),
-                          actions: <Widget>[
-                            FlatButton(
-                              onPressed: Navigator.of(context).pop,
-                              child: Text('CLOSE'),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                  Marker(
-                    GeoCoord(19.487504, -99.153238),
-                    onTap: (markerId) async {
-                      await showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          content: Text("Applebee's Vía Vallejo"),
-                          actions: <Widget>[
-                            FlatButton(
-                              onPressed: Navigator.of(context).pop,
-                              child: Text('CLOSE'),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                  Marker(
-                    GeoCoord(19.442545, -99.204091),
-                    onTap: (markerId) async {
-                      await showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          content: Text("Applebee’s Plaza Carso"),
-                          actions: <Widget>[
-                            FlatButton(
-                              onPressed: Navigator.of(context).pop,
-                              child: Text('CLOSE'),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                  Marker(
-                    GeoCoord(25.457571, -100.979277),
-                    onTap: (markerId) async {
-                      await showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          content: Text("Applebee´s Galerías Saltillo"),
-                          actions: <Widget>[
-                            FlatButton(
-                              onPressed: Navigator.of(context).pop,
-                              child: Text('CLOSE'),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                },
-                initialZoom: 5.6,
-                initialPosition: GeoCoord(19.4978, -99.1269),
-                mobilePreferences: const MobileMapPreferences(
-                  trafficEnabled: true,
-                  zoomControlsEnabled: false,
+      body: ListView(
+        children: [
+          Navbar(),
+          Container(
+            height: MediaQuery.of(context).size.height * 0.50,
+            width: MediaQuery.of(context).size.width * 0.50,
+            child: GoogleMap(
+              key: _key,
+              markers: {
+                Marker(
+                  GeoCoord(18.934104, -99.197179),
+                  onTap: (markerId) async {
+                    await _dialog("Applebee's Cuernavaca",
+                        "Villas del Lago, 62374 Cuernavaca, \n Mor. Cuernavaca. C.P. 62500");
+                  },
                 ),
-                webPreferences: WebMapPreferences(
-                  fullscreenControl: true,
-                  zoomControl: true,
+                Marker(
+                  GeoCoord(16.8638, -99.8816),
+                  onTap: (markerId) async {
+                    await _dialog("Applebee's Acapulco",
+                        "Plaza Carso, Piso 3 Local R02, \n Col. Granada, C.P. 11529 Ciudad de México, CDMX.");
+                  },
                 ),
+                Marker(
+                  GeoCoord(19.487504, -99.153238),
+                  onTap: (markerId) async {
+                    await _dialog("Applebee's Vía Vallejo",
+                        "Calzada Vallejo, No. 1090, Colonia Santa Cruz de las Salinas \n, Delegación Azcapotzalco, Ciudad de México, D.F.");
+                  },
+                ),
+                Marker(
+                  GeoCoord(19.442545, -99.204091),
+                  onTap: (markerId) async {
+                    await _dialog("Applebee’s Plaza Carso",
+                        "Plaza Carso, Piso 3 Local R02,  \n Col. Granada, C.P. 11529 Ciudad de México, CDMX.");
+                  },
+                ),
+                Marker(
+                  GeoCoord(25.457571, -100.979277),
+                  onTap: (markerId) async {
+                    await _dialog("Applebee´s Galerías Saltillo",
+                        "Blvd. Nazario S. Ortiz Garza #2345 L-312, Col. Tanque de Peña. Ciudad: Saltillo, Coahuila. CP: 25279 Tel. (844) 485-0596");
+                  },
+                ),
+              },
+              initialZoom: 5.6,
+              initialPosition: GeoCoord(19.4978, -99.1269),
+              mobilePreferences: const MobileMapPreferences(
+                trafficEnabled: true,
+                zoomControlsEnabled: false,
+              ),
+              webPreferences: WebMapPreferences(
+                fullscreenControl: true,
+                zoomControl: true,
               ),
             ),
-            footer(),
-          ],
+          ),
+          footer(),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          final bounds = GeoCoordBounds(
+            northeast: GeoCoord(16.8638, -99.8816),
+            southwest: GeoCoord(15.8638, -99.8816),
+          );
+          GoogleMap.of(_key).moveCameraBounds(bounds);
+        },
+        label: Text('Acapulco'),
+        icon: Icon(Icons.person_pin_circle),
+      ),
+    );
+  }
+
+  Future _dialog(String nombre, String direccion) {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: Container(
+          width: 300,
+          height: 155,
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 5.0),
+                child: Text(nombre,
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+              ),
+              Text(direccion)
+            ],
+          ),
         ),
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            final bounds = GeoCoordBounds(
-              northeast: GeoCoord(16.8638, -99.8816),
-              southwest: GeoCoord(15.8638, -99.8816),
-            );
-            GoogleMap.of(_key).moveCameraBounds(bounds);
-          },
-          label: Text('Acapulco'),
-          icon: Icon(Icons.person_pin_circle),
-        ));
+        actions: <Widget>[
+          FlatButton(
+            onPressed: Navigator.of(context).pop,
+            child: Text('Cerrar'),
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -9,7 +9,7 @@ Widget footer() {
         color: Color(0xffd11507),
         child: Column(
           children: [
-            _parteUno(),
+            _parteUno(context),
             SizedBox(height: 15),
             _parteTres(),
           ],
@@ -21,7 +21,7 @@ Widget footer() {
         color: Color(0xffd11507),
         child: Column(
           children: [
-            _soporte(MainAxisAlignment.start),
+            _soporte(MainAxisAlignment.start, context),
             SizedBox(height: 10.0),
             _servicioCliente(),
             _parteTres(),
@@ -32,21 +32,21 @@ Widget footer() {
   });
 }
 
-Widget _parteUno() {
+Widget _parteUno(BuildContext context) {
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 20),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Image(image: AssetImage('images/logo.JPG')),
-        _soporte(MainAxisAlignment.start),
+        _soporte(MainAxisAlignment.start, context),
         _servicioCliente(),
       ],
     ),
   );
 }
 
-Widget _soporte(MainAxisAlignment main) {
+Widget _soporte(MainAxisAlignment main, BuildContext context) {
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 5.0),
     child: Row(
@@ -63,13 +63,13 @@ Widget _soporte(MainAxisAlignment main) {
               ),
             ),
             SizedBox(height: 10.0),
-            _textoSoporte("Tiendas"),
+            _textoSoporte("Secursales", context),
             SizedBox(height: 5.0),
-            _textoSoporte("Tickets de Soporte"),
+            _textoSoporte("Tickets de Soporte", context),
             SizedBox(height: 5.0),
-            _textoSoporte("Preguntas frecuentes"),
+            _textoSoporte("Preguntas frecuentes", context),
             SizedBox(height: 5.0),
-            _textoSoporte("Políticas de devoluciones")
+            _textoSoporte("Políticas de devoluciones", context)
           ],
         ),
       ],
@@ -77,13 +77,16 @@ Widget _soporte(MainAxisAlignment main) {
   );
 }
 
-Widget _textoSoporte(String contenido) {
+Widget _textoSoporte(String contenido, BuildContext context) {
   return InkWell(
     child: Text(
       contenido,
-      style: TextStyle(decoration: TextDecoration.underline),
+      style:
+          TextStyle(decoration: TextDecoration.underline, color: Colors.white),
     ),
-    onTap: () {},
+    onTap: () {
+      Navigator.pushNamed(context, 'sucursales');
+    },
   );
 }
 
