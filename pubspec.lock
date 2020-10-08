@@ -7,14 +7,14 @@ packages:
       name: async
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.5.0-nullsafety"
+    version: "2.5.0-nullsafety.1"
   boolean_selector:
     dependency: transitive
     description:
       name: boolean_selector
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.0-nullsafety"
+    version: "2.1.0-nullsafety.1"
   carousel_pro:
     dependency: "direct main"
     description:
@@ -28,14 +28,14 @@ packages:
       name: characters
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.0-nullsafety.2"
+    version: "1.1.0-nullsafety.3"
   charcode:
     dependency: transitive
     description:
       name: charcode
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.0-nullsafety"
+    version: "1.2.0-nullsafety.1"
   chewie:
     dependency: transitive
     description:
@@ -56,14 +56,14 @@ packages:
       name: clock
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.0-nullsafety"
+    version: "1.1.0-nullsafety.1"
   collection:
     dependency: transitive
     description:
       name: collection
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.15.0-nullsafety.2"
+    version: "1.15.0-nullsafety.3"
   convert:
     dependency: transitive
     description:
@@ -112,7 +112,7 @@ packages:
       name: fake_async
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.0-nullsafety"
+    version: "1.2.0-nullsafety.1"
   ffi:
     dependency: transitive
     description:
@@ -146,6 +146,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
+  flutter_plugin_android_lifecycle:
+    dependency: transitive
+    description:
+      name: flutter_plugin_android_lifecycle
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.11"
   flutter_svg:
     dependency: transitive
     description:
@@ -163,6 +170,34 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  google_maps:
+    dependency: transitive
+    description:
+      name: google_maps
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.4.5"
+  google_maps_flutter:
+    dependency: "direct main"
+    description:
+      name: google_maps_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.2"
+  google_maps_flutter_platform_interface:
+    dependency: transitive
+    description:
+      name: google_maps_flutter_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.4"
+  google_maps_flutter_web:
+    dependency: "direct main"
+    description:
+      name: google_maps_flutter_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.0+3"
   html:
     dependency: transitive
     description:
@@ -191,6 +226,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.16.1"
+  js_wrapping:
+    dependency: transitive
+    description:
+      name: js_wrapping
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.0"
   localstorage:
     dependency: "direct main"
     description:
@@ -204,14 +246,14 @@ packages:
       name: matcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.12.10-nullsafety"
+    version: "0.12.10-nullsafety.1"
   meta:
     dependency: transitive
     description:
       name: meta
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.3.0-nullsafety.2"
+    version: "1.3.0-nullsafety.3"
   open_iconic_flutter:
     dependency: transitive
     description:
@@ -225,7 +267,7 @@ packages:
       name: path
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.8.0-nullsafety"
+    version: "1.8.0-nullsafety.1"
   path_drawing:
     dependency: transitive
     description:
@@ -317,6 +359,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.13"
+  sanitize_html:
+    dependency: transitive
+    description:
+      name: sanitize_html
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.4.0"
   screen:
     dependency: transitive
     description:
@@ -377,42 +426,49 @@ packages:
       name: source_span
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.8.0-nullsafety"
+    version: "1.8.0-nullsafety.2"
   stack_trace:
     dependency: transitive
     description:
       name: stack_trace
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.10.0-nullsafety"
+    version: "1.10.0-nullsafety.1"
   stream_channel:
     dependency: transitive
     description:
       name: stream_channel
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.0-nullsafety"
+    version: "2.1.0-nullsafety.1"
+  stream_transform:
+    dependency: transitive
+    description:
+      name: stream_transform
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.0"
   string_scanner:
     dependency: transitive
     description:
       name: string_scanner
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.0-nullsafety"
+    version: "1.1.0-nullsafety.1"
   term_glyph:
     dependency: transitive
     description:
       name: term_glyph
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.0-nullsafety"
+    version: "1.2.0-nullsafety.1"
   test_api:
     dependency: transitive
     description:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.19-nullsafety"
+    version: "0.2.19-nullsafety.2"
   toast:
     dependency: "direct main"
     description:
@@ -426,14 +482,14 @@ packages:
       name: typed_data
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.3.0-nullsafety.2"
+    version: "1.3.0-nullsafety.3"
   vector_math:
     dependency: transitive
     description:
       name: vector_math
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.0-nullsafety.2"
+    version: "2.1.0-nullsafety.3"
   video_player:
     dependency: transitive
     description:
@@ -491,5 +547,5 @@ packages:
     source: hosted
     version: "4.5.1"
 sdks:
-  dart: ">=2.10.0-0.0.dev <2.10.0"
-  flutter: ">=1.18.0-6.0.pre <2.0.0"
+  dart: ">=2.10.0-110 <=2.11.0-161.0.dev"
+  flutter: ">=1.22.0 <2.0.0"

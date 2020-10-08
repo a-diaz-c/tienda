@@ -63,7 +63,7 @@ Widget _soporte(MainAxisAlignment main) {
               ),
             ),
             SizedBox(height: 10.0),
-            _textoSoporte("Términos y condiciones de uso"),
+            _textoSoporte("Tiendas"),
             SizedBox(height: 5.0),
             _textoSoporte("Tickets de Soporte"),
             SizedBox(height: 5.0),
