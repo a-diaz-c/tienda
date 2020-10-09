@@ -54,6 +54,9 @@ class _MapasPageState extends State<MapasPage> {
                     await _dialog("Applebee's Acapulco",
                         "Plaza Carso, Piso 3 Local R02, \n Col. Granada, C.P. 11529 Ciudad de México, CDMX.");
                   },
+                  onInfoWindowTap: () {
+                    Text('data');
+                  },
                 ),
                 Marker(
                   GeoCoord(19.487504, -99.153238),
