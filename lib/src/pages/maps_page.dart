@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import 'package:draggable_scrollbar/draggable_scrollbar.dart';
 import 'package:flutter_google_maps/flutter_google_maps.dart';
 import 'package:tienda/src/components/footer.dart';
 import 'package:tienda/src/components/navbar.dart';

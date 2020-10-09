@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:tienda/src/models/categoria.dart';
+import 'package:tienda/src/models/tienda.dart';
 import 'package:tienda/src/providers/productos_providers.dart';
 import 'package:tienda/src/providers/tienda_providers.dart';
 import 'package:tienda/src/providers/usuarios_providers.dart';
@@ -13,7 +14,14 @@ class Navbar extends StatefulWidget {
 }
 
 class _NavbarState extends State<Navbar> {
-  Map<String, dynamic> _tiendaActual;
+  Tienda _tiendaActual = new Tienda('0', 'Selecciona tu tienda', '');
+  /* List<Tienda> _listTiendas = [
+    Tienda('1', "Applebee's Cuernavaca", ""),
+    Tienda('2', "Applebee’s Plaza Carso", ""),
+    Tienda('3', "Applebee´s Galerías Saltillo", ""),
+    Tienda('4', "Applebee's Vía Vallejo", ""),
+    Tienda('5', "Applebee's Acapulco", "")
+  ]; */
   List<Map<String, String>> _listTiendas = [
     {'id': "1", "nombre": "Applebee's Cuernavaca"},
     {'id': "1", "nombre": "Applebee’s Plaza Carso"},
@@ -46,8 +54,10 @@ class _NavbarState extends State<Navbar> {
   }
 
   _cargarTienda() async {
-    await tiendaProviders.getTienda().then((value) => _tiendaActual = value);
-    print(_tiendaActual);
+    await tiendaProviders.getTienda().then((value) {
+      _tiendaActual.id = value['id'];
+      _tiendaActual.nombre = value['nombre'];
+    });
   }
 
   @override
@@ -181,7 +191,7 @@ class _NavbarState extends State<Navbar> {
         SizedBox(width: 10),
         PopupMenuButton(
           onSelected: (value) {
-            _tiendaActual['nombre'] = value['nombre'];
+            _tiendaActual.nombre = value['nombre'];
             tiendaProviders.addTienda(value);
             setState(() {});
           },
@@ -192,7 +202,7 @@ class _NavbarState extends State<Navbar> {
               color: Colors.white,
             ),
             padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
-            child: Text(_tiendaActual['nombre'],
+            child: Text(_tiendaActual.nombre,
                 style: TextStyle(
                     color: Colors.black, fontWeight: FontWeight.normal)),
           ),
