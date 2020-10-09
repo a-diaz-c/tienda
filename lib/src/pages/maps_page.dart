@@ -44,14 +44,14 @@ class _MapasPageState extends State<MapasPage> {
                   GeoCoord(18.934104, -99.197179),
                   onTap: (markerId) async {
                     await _dialog("Applebee's Cuernavaca",
-                        "Villas del Lago, 62374 Cuernavaca, \n Mor. Cuernavaca. C.P. 62500");
+                        "Villas del Lago, 62374 Cuernavaca, Mor. Cuernavaca. C.P. 62500");
                   },
                 ),
                 Marker(
-                  GeoCoord(16.8638, -99.8816),
+                  GeoCoord(16.860217, -99.873522),
                   onTap: (markerId) async {
                     await _dialog("Applebee's Acapulco",
-                        "Plaza Carso, Piso 3 Local R02, \n Col. Granada, C.P. 11529 Ciudad de México, CDMX.");
+                        "Plaza Carso, Piso 3 Local R02, Col. Granada, C.P. 11529 Ciudad de México, CDMX.");
                   },
                   onInfoWindowTap: () {
                     Text('data');
@@ -61,14 +61,14 @@ class _MapasPageState extends State<MapasPage> {
                   GeoCoord(19.487504, -99.153238),
                   onTap: (markerId) async {
                     await _dialog("Applebee's Vía Vallejo",
-                        "Calzada Vallejo, No. 1090, Colonia Santa Cruz de las Salinas \n, Delegación Azcapotzalco, Ciudad de México, D.F.");
+                        "Calzada Vallejo, No. 1090, Colonia Santa Cruz de las Salinas, Delegación Azcapotzalco, Ciudad de México, D.F.");
                   },
                 ),
                 Marker(
                   GeoCoord(19.442545, -99.204091),
                   onTap: (markerId) async {
                     await _dialog("Applebee’s Plaza Carso",
-                        "Plaza Carso, Piso 3 Local R02,  \n Col. Granada, C.P. 11529 Ciudad de México, CDMX.");
+                        "Plaza Carso, Piso 3 Local R02, Col. Granada, C.P. 11529 Ciudad de México, CDMX.");
                   },
                 ),
                 Marker(
@@ -97,8 +97,8 @@ class _MapasPageState extends State<MapasPage> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           final bounds = GeoCoordBounds(
-            northeast: GeoCoord(16.8638, -99.8816),
-            southwest: GeoCoord(15.8638, -99.8816),
+            northeast: GeoCoord(16.860217, -99.873522),
+            southwest: GeoCoord(16.860217, -99.873522),
           );
           GoogleMap.of(_key).moveCameraBounds(bounds);
         },
@@ -114,7 +114,7 @@ class _MapasPageState extends State<MapasPage> {
       builder: (context) => AlertDialog(
         content: Container(
           width: 300,
-          height: 155,
+          height: direccion.length.toDouble() * 1.2,
           child: Column(
             children: [
               Padding(
