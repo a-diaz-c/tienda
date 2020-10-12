@@ -122,7 +122,7 @@ class _NavbarState extends State<Navbar> {
       padding: EdgeInsets.only(top: 10.0, right: 10.0, left: 10.0),
       child: SelectableText(
         "Tienda Demo Desarrollada por www.kingo.com.mx",
-        style: TextStyle(fontSize: 10.0, color: Colors.white),
+        style: TextStyle(fontSize: 12.0, color: Colors.yellow),
       ),
     );
   }
@@ -499,7 +499,6 @@ class _NavbarState extends State<Navbar> {
                           if (_formKey.currentState.validate()) {
                             final res = await usuariosProviders.login(
                                 _usuario, _password);
-
                             if (res['resp']) {
                               var nombre = res['msg'].toString().split(' ');
                               _guardarUsuario(nombre[1]);
@@ -523,11 +522,21 @@ class _NavbarState extends State<Navbar> {
                                     );
                                   });
                             }
-
                             setState(() {});
                           }
                         },
                       ),
+                    ),
+                    InkWell(
+                      child: Text(
+                        "Registrarse",
+                        style: TextStyle(
+                          color: Color(0xFFd11507),
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.pushNamed(context, '/identificarse');
+                      },
                     )
                   ],
                 ),

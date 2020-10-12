@@ -79,8 +79,8 @@ class _MapasPageState extends State<MapasPage> {
                   },
                 ),
               },
-              initialZoom: 5.6,
-              initialPosition: GeoCoord(19.4978, -99.1269),
+              initialZoom: 18,
+              initialPosition: GeoCoord(16.860217, -99.873522),
               mobilePreferences: const MobileMapPreferences(
                 trafficEnabled: true,
                 zoomControlsEnabled: false,

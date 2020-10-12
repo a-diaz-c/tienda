@@ -10,10 +10,12 @@ class UsuariosProviders {
 
     final String basicAuth =
         'Basic ' + base64Encode(utf8.encode('$usuario:$password'));
+    final auth = {'empresa': '17531'};
 
     final resp = await http.post(
       url,
       headers: {'authorization': basicAuth},
+      body: jsonEncode(auth),
     );
     final Map decodedData = json.decode(resp.body);
     return decodedData;
