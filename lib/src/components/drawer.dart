@@ -32,8 +32,11 @@ class _DrawerComponentState extends State<DrawerComponent> {
     _ordenarCategorias();
   }
 
-  _cargarCarrito() {
-    productosProviders.sizeCarrito().then((value) => _datosCarrito = value);
+  _cargarCarrito() async {
+    await productosProviders
+        .sizeCarrito()
+        .then((value) => _datosCarrito = value);
+    setState(() {});
   }
 
   @override
